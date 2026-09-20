@@ -1,0 +1,28 @@
+name: radar
+on:
+  schedule:
+    - cron: '17 5,11,17,23 * * *'   # 4 veces al día (UTC)
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: radar
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: node src/run.js
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - name: Commit datos y web
+        run: |
+          git config user.name "radar-bot"
+          git config user.email "radar-bot@users.noreply.github.com"
+          git add data docs
+          git diff --cached --quiet || git commit -m "radar: $(date -u +%Y-%m-%d\ %H:%M) UTC"
+          git push

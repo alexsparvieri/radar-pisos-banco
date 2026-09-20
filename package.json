@@ -1,0 +1,18 @@
+{
+  "name": "radar-pisos-banco",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Agente que vigila los portales inmobiliarios de bancos/servicers (Solvia, Aliseda, Servihabitat, Altamira, Hipoges, Bankinter) en la franja El Vendrell – Barcelona, detecta altas y bajadas de precio, avisa por Telegram y publica una web unificada.",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "run": "node src/run.js",
+    "run:dry": "node src/run.js --dry",
+    "source": "node src/run.js --only",
+    "site": "node src/site/build.js",
+    "serve": "node src/site/serve.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  }
+}

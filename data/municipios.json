@@ -1,0 +1,1234 @@
+[
+ {
+  "ine": "43002",
+  "name": "Albinyana",
+  "comarca": "Baix Penedès",
+  "lat": 41.2421,
+  "lng": 1.49253
+ },
+ {
+  "ine": "43016",
+  "name": "L'Arboç",
+  "comarca": "Baix Penedès",
+  "lat": 41.2731,
+  "lng": 1.60659
+ },
+ {
+  "ine": "43020",
+  "name": "Banyeres del Penedès",
+  "comarca": "Baix Penedès",
+  "lat": 41.27083,
+  "lng": 1.55944
+ },
+ {
+  "ine": "43024",
+  "name": "Bellvei",
+  "comarca": "Baix Penedès",
+  "lat": 41.23431,
+  "lng": 1.56765
+ },
+ {
+  "ine": "43028",
+  "name": "La Bisbal del Penedès",
+  "comarca": "Baix Penedès",
+  "lat": 41.28044,
+  "lng": 1.48133
+ },
+ {
+  "ine": "43030",
+  "name": "Bonastre",
+  "comarca": "Baix Penedès",
+  "lat": 41.22498,
+  "lng": 1.43597
+ },
+ {
+  "ine": "43037",
+  "name": "Calafell",
+  "comarca": "Baix Penedès",
+  "lat": 41.20904,
+  "lng": 1.58969
+ },
+ {
+  "ine": "43051",
+  "name": "Cunit",
+  "comarca": "Baix Penedès",
+  "lat": 41.20956,
+  "lng": 1.63029
+ },
+ {
+  "ine": "43074",
+  "name": "Llorenç del Penedès",
+  "comarca": "Baix Penedès",
+  "lat": 41.28527,
+  "lng": 1.54467
+ },
+ {
+  "ine": "43079",
+  "name": "Masllorenç",
+  "comarca": "Baix Penedès",
+  "lat": 41.26335,
+  "lng": 1.42954
+ },
+ {
+  "ine": "43090",
+  "name": "El Montmell",
+  "comarca": "Baix Penedès",
+  "lat": 41.33152,
+  "lng": 1.48702
+ },
+ {
+  "ine": "43137",
+  "name": "Sant Jaume dels Domenys",
+  "comarca": "Baix Penedès",
+  "lat": 41.30784,
+  "lng": 1.55536
+ },
+ {
+  "ine": "43140",
+  "name": "Santa Oliva",
+  "comarca": "Baix Penedès",
+  "lat": 41.24908,
+  "lng": 1.5388
+ },
+ {
+  "ine": "43163",
+  "name": "El Vendrell",
+  "comarca": "Baix Penedès",
+  "lat": 41.20507,
+  "lng": 1.51996
+ },
+ {
+  "ine": "08013",
+  "name": "Avinyonet del Penedès",
+  "comarca": "Alt Penedès",
+  "lat": 41.35223,
+  "lng": 1.7831
+ },
+ {
+  "ine": "08027",
+  "name": "Les Cabanyes",
+  "comarca": "Alt Penedès",
+  "lat": 41.37163,
+  "lng": 1.68995
+ },
+ {
+  "ine": "08058",
+  "name": "Castellet i la Gornal",
+  "comarca": "Alt Penedès",
+  "lat": 41.26757,
+  "lng": 1.63382
+ },
+ {
+  "ine": "08065",
+  "name": "Castellví de la Marca",
+  "comarca": "Alt Penedès",
+  "lat": 41.3343,
+  "lng": 1.60376
+ },
+ {
+  "ine": "08085",
+  "name": "Font-rubí",
+  "comarca": "Alt Penedès",
+  "lat": 41.42201,
+  "lng": 1.64398
+ },
+ {
+  "ine": "08091",
+  "name": "Gelida",
+  "comarca": "Alt Penedès",
+  "lat": 41.43519,
+  "lng": 1.85899
+ },
+ {
+  "ine": "08094",
+  "name": "La Granada",
+  "comarca": "Alt Penedès",
+  "lat": 41.37689,
+  "lng": 1.72244
+ },
+ {
+  "ine": "08122",
+  "name": "Mediona",
+  "comarca": "Alt Penedès",
+  "lat": 41.48104,
+  "lng": 1.63214
+ },
+ {
+  "ine": "08145",
+  "name": "Olèrdola",
+  "comarca": "Alt Penedès",
+  "lat": 41.31929,
+  "lng": 1.72447
+ },
+ {
+  "ine": "08146",
+  "name": "Olesa de Bonesvalls",
+  "comarca": "Alt Penedès",
+  "lat": 41.35343,
+  "lng": 1.85229
+ },
+ {
+  "ine": "08154",
+  "name": "Pacs del Penedès",
+  "comarca": "Alt Penedès",
+  "lat": 41.36028,
+  "lng": 1.66618
+ },
+ {
+  "ine": "08164",
+  "name": "El Pla del Penedès",
+  "comarca": "Alt Penedès",
+  "lat": 41.4147,
+  "lng": 1.72135
+ },
+ {
+  "ine": "08168",
+  "name": "Pontons",
+  "comarca": "Alt Penedès",
+  "lat": 41.41271,
+  "lng": 1.5121
+ },
+ {
+  "ine": "08174",
+  "name": "Puigdàlber",
+  "comarca": "Alt Penedès",
+  "lat": 41.40371,
+  "lng": 1.70303
+ },
+ {
+  "ine": "08206",
+  "name": "Sant Cugat Sesgarrigues",
+  "comarca": "Alt Penedès",
+  "lat": 41.35595,
+  "lng": 1.75346
+ },
+ {
+  "ine": "08222",
+  "name": "Sant Llorenç d'Hortons",
+  "comarca": "Alt Penedès",
+  "lat": 41.47035,
+  "lng": 1.83477
+ },
+ {
+  "ine": "08227",
+  "name": "Sant Martí Sarroca",
+  "comarca": "Alt Penedès",
+  "lat": 41.37448,
+  "lng": 1.61989
+ },
+ {
+  "ine": "08232",
+  "name": "Sant Pere de Riudebitlles",
+  "comarca": "Alt Penedès",
+  "lat": 41.4585,
+  "lng": 1.69742
+ },
+ {
+  "ine": "08236",
+  "name": "Sant Quintí de Mediona",
+  "comarca": "Alt Penedès",
+  "lat": 41.45273,
+  "lng": 1.6654
+ },
+ {
+  "ine": "08240",
+  "name": "Sant Sadurní d'Anoia",
+  "comarca": "Alt Penedès",
+  "lat": 41.43862,
+  "lng": 1.78734
+ },
+ {
+  "ine": "08249",
+  "name": "Santa Fe del Penedès",
+  "comarca": "Alt Penedès",
+  "lat": 41.38855,
+  "lng": 1.72007
+ },
+ {
+  "ine": "08251",
+  "name": "Santa Margarida i els Monjos",
+  "comarca": "Alt Penedès",
+  "lat": 41.31166,
+  "lng": 1.66406
+ },
+ {
+  "ine": "08273",
+  "name": "Subirats",
+  "comarca": "Alt Penedès",
+  "lat": 41.39813,
+  "lng": 1.80469
+ },
+ {
+  "ine": "08287",
+  "name": "Torrelavit",
+  "comarca": "Alt Penedès",
+  "lat": 41.44063,
+  "lng": 1.7229
+ },
+ {
+  "ine": "08288",
+  "name": "Torrelles de Foix",
+  "comarca": "Alt Penedès",
+  "lat": 41.40935,
+  "lng": 1.57025
+ },
+ {
+  "ine": "08305",
+  "name": "Vilafranca del Penedès",
+  "comarca": "Alt Penedès",
+  "lat": 41.34752,
+  "lng": 1.70059
+ },
+ {
+  "ine": "08304",
+  "name": "Vilobí del Penedès",
+  "comarca": "Alt Penedès",
+  "lat": 41.38573,
+  "lng": 1.66607
+ },
+ {
+  "ine": "08043",
+  "name": "Canyelles",
+  "comarca": "Garraf",
+  "lat": 41.28351,
+  "lng": 1.721
+ },
+ {
+  "ine": "08074",
+  "name": "Cubelles",
+  "comarca": "Garraf",
+  "lat": 41.21759,
+  "lng": 1.66035
+ },
+ {
+  "ine": "08148",
+  "name": "Olivella",
+  "comarca": "Garraf",
+  "lat": 41.29938,
+  "lng": 1.8117
+ },
+ {
+  "ine": "08231",
+  "name": "Sant Pere de Ribes",
+  "comarca": "Garraf",
+  "lat": 41.26214,
+  "lng": 1.77607
+ },
+ {
+  "ine": "08270",
+  "name": "Sitges",
+  "comarca": "Garraf",
+  "lat": 41.256,
+  "lng": 1.86006
+ },
+ {
+  "ine": "08307",
+  "name": "Vilanova i la Geltrú",
+  "comarca": "Garraf",
+  "lat": 41.23708,
+  "lng": 1.7048
+ },
+ {
+  "ine": "08008",
+  "name": "Argençola",
+  "comarca": "Anoia",
+  "lat": 41.59538,
+  "lng": 1.45461
+ },
+ {
+  "ine": "08021",
+  "name": "Bellprat",
+  "comarca": "Anoia",
+  "lat": 41.51337,
+  "lng": 1.44764
+ },
+ {
+  "ine": "08025",
+  "name": "El Bruc",
+  "comarca": "Anoia",
+  "lat": 41.60991,
+  "lng": 1.7635
+ },
+ {
+  "ine": "08028",
+  "name": "Cabrera d'Anoia",
+  "comarca": "Anoia",
+  "lat": 41.4889,
+  "lng": 1.71049
+ },
+ {
+  "ine": "08031",
+  "name": "Calaf",
+  "comarca": "Anoia",
+  "lat": 41.72156,
+  "lng": 1.50612
+ },
+ {
+  "ine": "08036",
+  "name": "Calonge de Segarra",
+  "comarca": "Anoia",
+  "lat": 41.75011,
+  "lng": 1.48538
+ },
+ {
+  "ine": "08044",
+  "name": "Capellades",
+  "comarca": "Anoia",
+  "lat": 41.52929,
+  "lng": 1.68811
+ },
+ {
+  "ine": "08048",
+  "name": "Carme",
+  "comarca": "Anoia",
+  "lat": 41.5339,
+  "lng": 1.62454
+ },
+ {
+  "ine": "08060",
+  "name": "Castellfollit de Riubregós",
+  "comarca": "Anoia",
+  "lat": 41.77101,
+  "lng": 1.4358
+ },
+ {
+  "ine": "08063",
+  "name": "Castellolí",
+  "comarca": "Anoia",
+  "lat": 41.5963,
+  "lng": 1.70391
+ },
+ {
+  "ine": "08071",
+  "name": "Copons",
+  "comarca": "Anoia",
+  "lat": 41.64298,
+  "lng": 1.50508
+ },
+ {
+  "ine": "08162",
+  "name": "Els Hostalets de Pierola",
+  "comarca": "Anoia",
+  "lat": 41.54247,
+  "lng": 1.79549
+ },
+ {
+  "ine": "08102",
+  "name": "Igualada",
+  "comarca": "Anoia",
+  "lat": 41.58595,
+  "lng": 1.61451
+ },
+ {
+  "ine": "08103",
+  "name": "Jorba",
+  "comarca": "Anoia",
+  "lat": 41.60472,
+  "lng": 1.52922
+ },
+ {
+  "ine": "08104",
+  "name": "La Llacuna",
+  "comarca": "Anoia",
+  "lat": 41.46933,
+  "lng": 1.53876
+ },
+ {
+  "ine": "08119",
+  "name": "Masquefa",
+  "comarca": "Anoia",
+  "lat": 41.50001,
+  "lng": 1.80726
+ },
+ {
+  "ine": "08133",
+  "name": "Montmaneu",
+  "comarca": "Anoia",
+  "lat": 41.61909,
+  "lng": 1.39915
+ },
+ {
+  "ine": "08143",
+  "name": "Òdena",
+  "comarca": "Anoia",
+  "lat": 41.6186,
+  "lng": 1.63143
+ },
+ {
+  "ine": "08152",
+  "name": "Orpí",
+  "comarca": "Anoia",
+  "lat": 41.52424,
+  "lng": 1.57779
+ },
+ {
+  "ine": "08161",
+  "name": "Piera",
+  "comarca": "Anoia",
+  "lat": 41.51115,
+  "lng": 1.74994
+ },
+ {
+  "ine": "08165",
+  "name": "La Pobla de Claramunt",
+  "comarca": "Anoia",
+  "lat": 41.55831,
+  "lng": 1.68117
+ },
+ {
+  "ine": "08170",
+  "name": "Els Prats de Rei",
+  "comarca": "Anoia",
+  "lat": 41.70644,
+  "lng": 1.55181
+ },
+ {
+  "ine": "08176",
+  "name": "Pujalt",
+  "comarca": "Anoia",
+  "lat": 41.70677,
+  "lng": 1.43486
+ },
+ {
+  "ine": "08185",
+  "name": "Rubió",
+  "comarca": "Anoia",
+  "lat": 41.65712,
+  "lng": 1.57477
+ },
+ {
+  "ine": "08226",
+  "name": "Sant Martí de Tous",
+  "comarca": "Anoia",
+  "lat": 41.55234,
+  "lng": 1.50123
+ },
+ {
+  "ine": "08228",
+  "name": "Sant Martí Sesgueioles",
+  "comarca": "Anoia",
+  "lat": 41.70342,
+  "lng": 1.5032
+ },
+ {
+  "ine": "08189",
+  "name": "Sant Pere Sallavinera",
+  "comarca": "Anoia",
+  "lat": 41.75142,
+  "lng": 1.56298
+ },
+ {
+  "ine": "08250",
+  "name": "Santa Margarida de Montbui",
+  "comarca": "Anoia",
+  "lat": 41.56068,
+  "lng": 1.5766
+ },
+ {
+  "ine": "08257",
+  "name": "Santa Maria de Miralles",
+  "comarca": "Anoia",
+  "lat": 41.50549,
+  "lng": 1.51592
+ },
+ {
+  "ine": "08286",
+  "name": "La Torre de Claramunt",
+  "comarca": "Anoia",
+  "lat": 41.52372,
+  "lng": 1.65909
+ },
+ {
+  "ine": "08292",
+  "name": "Vallbona d'Anoia",
+  "comarca": "Anoia",
+  "lat": 41.52783,
+  "lng": 1.70868
+ },
+ {
+  "ine": "08297",
+  "name": "Veciana",
+  "comarca": "Anoia",
+  "lat": 41.66818,
+  "lng": 1.4807
+ },
+ {
+  "ine": "08302",
+  "name": "Vilanova del Camí",
+  "comarca": "Anoia",
+  "lat": 41.56127,
+  "lng": 1.63403
+ },
+ {
+  "ine": "08001",
+  "name": "Abrera",
+  "comarca": "Baix Llobregat",
+  "lat": 41.51639,
+  "lng": 1.90998
+ },
+ {
+  "ine": "08020",
+  "name": "Begues",
+  "comarca": "Baix Llobregat",
+  "lat": 41.31852,
+  "lng": 1.90108
+ },
+ {
+  "ine": "08056",
+  "name": "Castelldefels",
+  "comarca": "Baix Llobregat",
+  "lat": 41.27658,
+  "lng": 1.97053
+ },
+ {
+  "ine": "08066",
+  "name": "Castellví de Rosanes",
+  "comarca": "Baix Llobregat",
+  "lat": 41.44814,
+  "lng": 1.91714
+ },
+ {
+  "ine": "08068",
+  "name": "Cervelló",
+  "comarca": "Baix Llobregat",
+  "lat": 41.39283,
+  "lng": 1.94203
+ },
+ {
+  "ine": "08069",
+  "name": "Collbató",
+  "comarca": "Baix Llobregat",
+  "lat": 41.57311,
+  "lng": 1.82762
+ },
+ {
+  "ine": "08072",
+  "name": "Corbera de Llobregat",
+  "comarca": "Baix Llobregat",
+  "lat": 41.42443,
+  "lng": 1.93034
+ },
+ {
+  "ine": "08073",
+  "name": "Cornellà de Llobregat",
+  "comarca": "Baix Llobregat",
+  "lat": 41.35527,
+  "lng": 2.07638
+ },
+ {
+  "ine": "08076",
+  "name": "Esparreguera",
+  "comarca": "Baix Llobregat",
+  "lat": 41.54976,
+  "lng": 1.86286
+ },
+ {
+  "ine": "08077",
+  "name": "Esplugues de Llobregat",
+  "comarca": "Baix Llobregat",
+  "lat": 41.37902,
+  "lng": 2.09083
+ },
+ {
+  "ine": "08089",
+  "name": "Gavà",
+  "comarca": "Baix Llobregat",
+  "lat": 41.29453,
+  "lng": 1.98357
+ },
+ {
+  "ine": "08114",
+  "name": "Martorell",
+  "comarca": "Baix Llobregat",
+  "lat": 41.47906,
+  "lng": 1.9174
+ },
+ {
+  "ine": "08123",
+  "name": "Molins de Rei",
+  "comarca": "Baix Llobregat",
+  "lat": 41.42075,
+  "lng": 2.0344
+ },
+ {
+  "ine": "08147",
+  "name": "Olesa de Montserrat",
+  "comarca": "Baix Llobregat",
+  "lat": 41.55371,
+  "lng": 1.9015
+ },
+ {
+  "ine": "08157",
+  "name": "Pallejà",
+  "comarca": "Baix Llobregat",
+  "lat": 41.42159,
+  "lng": 1.9856
+ },
+ {
+  "ine": "08905",
+  "name": "La Palma de Cervelló",
+  "comarca": "Baix Llobregat",
+  "lat": 41.41021,
+  "lng": 1.96327
+ },
+ {
+  "ine": "08158",
+  "name": "El Papiol",
+  "comarca": "Baix Llobregat",
+  "lat": 41.44218,
+  "lng": 2.01191
+ },
+ {
+  "ine": "08169",
+  "name": "El Prat de Llobregat",
+  "comarca": "Baix Llobregat",
+  "lat": 41.31002,
+  "lng": 2.09879
+ },
+ {
+  "ine": "08196",
+  "name": "Sant Andreu de la Barca",
+  "comarca": "Baix Llobregat",
+  "lat": 41.45135,
+  "lng": 1.9637
+ },
+ {
+  "ine": "08200",
+  "name": "Sant Boi de Llobregat",
+  "comarca": "Baix Llobregat",
+  "lat": 41.33498,
+  "lng": 2.04191
+ },
+ {
+  "ine": "08204",
+  "name": "Sant Climent de Llobregat",
+  "comarca": "Baix Llobregat",
+  "lat": 41.33327,
+  "lng": 1.98559
+ },
+ {
+  "ine": "08208",
+  "name": "Sant Esteve Sesrovires",
+  "comarca": "Baix Llobregat",
+  "lat": 41.48655,
+  "lng": 1.87633
+ },
+ {
+  "ine": "08211",
+  "name": "Sant Feliu de Llobregat",
+  "comarca": "Baix Llobregat",
+  "lat": 41.39507,
+  "lng": 2.04942
+ },
+ {
+  "ine": "08217",
+  "name": "Sant Joan Despí",
+  "comarca": "Baix Llobregat",
+  "lat": 41.36733,
+  "lng": 2.05656
+ },
+ {
+  "ine": "08221",
+  "name": "Sant Just Desvern",
+  "comarca": "Baix Llobregat",
+  "lat": 41.39256,
+  "lng": 2.07918
+ },
+ {
+  "ine": "08263",
+  "name": "Sant Vicenç dels Horts",
+  "comarca": "Baix Llobregat",
+  "lat": 41.39053,
+  "lng": 2.00293
+ },
+ {
+  "ine": "08244",
+  "name": "Santa Coloma de Cervelló",
+  "comarca": "Baix Llobregat",
+  "lat": 41.36786,
+  "lng": 2.01873
+ },
+ {
+  "ine": "08289",
+  "name": "Torrelles de Llobregat",
+  "comarca": "Baix Llobregat",
+  "lat": 41.35452,
+  "lng": 1.97107
+ },
+ {
+  "ine": "08295",
+  "name": "Vallirana",
+  "comarca": "Baix Llobregat",
+  "lat": 41.37363,
+  "lng": 1.91696
+ },
+ {
+  "ine": "08301",
+  "name": "Viladecans",
+  "comarca": "Baix Llobregat",
+  "lat": 41.30295,
+  "lng": 2.03193
+ },
+ {
+  "ine": "08019",
+  "name": "Barcelona",
+  "comarca": "Barcelonès",
+  "lat": 41.39999,
+  "lng": 2.15123
+ },
+ {
+  "ine": "08101",
+  "name": "L'Hospitalet de Llobregat",
+  "comarca": "Barcelonès",
+  "lat": 41.35823,
+  "lng": 2.11221
+ },
+ {
+  "ine": "08904",
+  "name": "Badia del Vallès",
+  "comarca": "Vallès Occidental",
+  "lat": 41.5082,
+  "lng": 2.1149
+ },
+ {
+  "ine": "08252",
+  "name": "Barberà del Vallès",
+  "comarca": "Vallès Occidental",
+  "lat": 41.51822,
+  "lng": 2.13536
+ },
+ {
+  "ine": "08051",
+  "name": "Castellar del Vallès",
+  "comarca": "Vallès Occidental",
+  "lat": 41.62255,
+  "lng": 2.07432
+ },
+ {
+  "ine": "08054",
+  "name": "Castellbisbal",
+  "comarca": "Vallès Occidental",
+  "lat": 41.4828,
+  "lng": 1.96819
+ },
+ {
+  "ine": "08266",
+  "name": "Cerdanyola del Vallès",
+  "comarca": "Vallès Occidental",
+  "lat": 41.48061,
+  "lng": 2.12274
+ },
+ {
+  "ine": "08087",
+  "name": "Gallifa",
+  "comarca": "Vallès Occidental",
+  "lat": 41.69439,
+  "lng": 2.11415
+ },
+ {
+  "ine": "08120",
+  "name": "Matadepera",
+  "comarca": "Vallès Occidental",
+  "lat": 41.62836,
+  "lng": 2.01243
+ },
+ {
+  "ine": "08125",
+  "name": "Montcada i Reixac",
+  "comarca": "Vallès Occidental",
+  "lat": 41.48943,
+  "lng": 2.18434
+ },
+ {
+  "ine": "08156",
+  "name": "Palau-solità i Plegamans",
+  "comarca": "Vallès Occidental",
+  "lat": 41.58048,
+  "lng": 2.17495
+ },
+ {
+  "ine": "08167",
+  "name": "Polinyà",
+  "comarca": "Vallès Occidental",
+  "lat": 41.55792,
+  "lng": 2.15212
+ },
+ {
+  "ine": "08179",
+  "name": "Rellinars",
+  "comarca": "Vallès Occidental",
+  "lat": 41.64343,
+  "lng": 1.91873
+ },
+ {
+  "ine": "08180",
+  "name": "Ripollet",
+  "comarca": "Vallès Occidental",
+  "lat": 41.4996,
+  "lng": 2.15423
+ },
+ {
+  "ine": "08184",
+  "name": "Rubí",
+  "comarca": "Vallès Occidental",
+  "lat": 41.50159,
+  "lng": 2.01467
+ },
+ {
+  "ine": "08187",
+  "name": "Sabadell",
+  "comarca": "Vallès Occidental",
+  "lat": 41.5552,
+  "lng": 2.10164
+ },
+ {
+  "ine": "08205",
+  "name": "Sant Cugat del Vallès",
+  "comarca": "Vallès Occidental",
+  "lat": 41.46196,
+  "lng": 2.07306
+ },
+ {
+  "ine": "08223",
+  "name": "Sant Llorenç Savall",
+  "comarca": "Vallès Occidental",
+  "lat": 41.68294,
+  "lng": 2.054
+ },
+ {
+  "ine": "08238",
+  "name": "Sant Quirze del Vallès",
+  "comarca": "Vallès Occidental",
+  "lat": 41.525,
+  "lng": 2.07003
+ },
+ {
+  "ine": "08260",
+  "name": "Santa Perpètua de Mogoda",
+  "comarca": "Vallès Occidental",
+  "lat": 41.53318,
+  "lng": 2.17655
+ },
+ {
+  "ine": "08267",
+  "name": "Sentmenat",
+  "comarca": "Vallès Occidental",
+  "lat": 41.61339,
+  "lng": 2.13051
+ },
+ {
+  "ine": "08279",
+  "name": "Terrassa",
+  "comarca": "Vallès Occidental",
+  "lat": 41.57536,
+  "lng": 2.008
+ },
+ {
+  "ine": "08290",
+  "name": "Ullastrell",
+  "comarca": "Vallès Occidental",
+  "lat": 41.52548,
+  "lng": 1.96328
+ },
+ {
+  "ine": "08291",
+  "name": "Vacarisses",
+  "comarca": "Vallès Occidental",
+  "lat": 41.60392,
+  "lng": 1.91749
+ },
+ {
+  "ine": "08300",
+  "name": "Viladecavalls",
+  "comarca": "Vallès Occidental",
+  "lat": 41.55776,
+  "lng": 1.9515
+ },
+ {
+  "ine": "43001",
+  "name": "Aiguamúrcia",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.36289,
+  "lng": 1.42404
+ },
+ {
+  "ine": "43005",
+  "name": "Alcover",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.26557,
+  "lng": 1.16717
+ },
+ {
+  "ine": "43010",
+  "name": "Alió",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.29731,
+  "lng": 1.30681
+ },
+ {
+  "ine": "43034",
+  "name": "Bràfim",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.27717,
+  "lng": 1.34139
+ },
+ {
+  "ine": "43036",
+  "name": "Cabra del Camp",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.39536,
+  "lng": 1.29998
+ },
+ {
+  "ine": "43059",
+  "name": "Figuerola del Camp",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.35859,
+  "lng": 1.25469
+ },
+ {
+  "ine": "43066",
+  "name": "Els Garidells",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.20972,
+  "lng": 1.24503
+ },
+ {
+  "ine": "43080",
+  "name": "La Masó",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.23784,
+  "lng": 1.22026
+ },
+ {
+  "ine": "43083",
+  "name": "El Milà",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.25139,
+  "lng": 1.20622
+ },
+ {
+  "ine": "43089",
+  "name": "Montferri",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.25998,
+  "lng": 1.38585
+ },
+ {
+  "ine": "43091",
+  "name": "Mont-ral",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.29275,
+  "lng": 1.09186
+ },
+ {
+  "ine": "43098",
+  "name": "Nulles",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.25258,
+  "lng": 1.28984
+ },
+ {
+  "ine": "43108",
+  "name": "El Pla de Santa Maria",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.34689,
+  "lng": 1.31126
+ },
+ {
+  "ine": "43113",
+  "name": "El Pont d'Armentera",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.40671,
+  "lng": 1.34003
+ },
+ {
+  "ine": "43119",
+  "name": "Puigpelat",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.27929,
+  "lng": 1.29978
+ },
+ {
+  "ine": "43120",
+  "name": "Querol",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.42043,
+  "lng": 1.42963
+ },
+ {
+  "ine": "43124",
+  "name": "La Riba",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.30683,
+  "lng": 1.1715
+ },
+ {
+  "ine": "43132",
+  "name": "Rodonyà",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.27865,
+  "lng": 1.40727
+ },
+ {
+  "ine": "43134",
+  "name": "El Rourell",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.22235,
+  "lng": 1.22022
+ },
+ {
+  "ine": "43161",
+  "name": "Valls",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.3017,
+  "lng": 1.23917
+ },
+ {
+  "ine": "43160",
+  "name": "Vallmoll",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.24575,
+  "lng": 1.25213
+ },
+ {
+  "ine": "43170",
+  "name": "Vila-rodona",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.30844,
+  "lng": 1.368
+ },
+ {
+  "ine": "43165",
+  "name": "Vilabella",
+  "comarca": "Alt Camp (límite oeste)",
+  "lat": 41.24538,
+  "lng": 1.32892
+ },
+ {
+  "ine": "43012",
+  "name": "Altafulla",
+  "comarca": "Tarragonès est (límite oeste)",
+  "lat": 41.15171,
+  "lng": 1.38032
+ },
+ {
+  "ine": "43043",
+  "name": "El Catllar",
+  "comarca": "Tarragonès est (límite oeste)",
+  "lat": 41.17836,
+  "lng": 1.30696
+ },
+ {
+  "ine": "43050",
+  "name": "Creixell",
+  "comarca": "Tarragonès est (límite oeste)",
+  "lat": 41.18198,
+  "lng": 1.43217
+ },
+ {
+  "ine": "43097",
+  "name": "La Nou de Gaià",
+  "comarca": "Tarragonès est (límite oeste)",
+  "lat": 41.18579,
+  "lng": 1.37924
+ },
+ {
+  "ine": "43111",
+  "name": "La Pobla de Montornès",
+  "comarca": "Tarragonès est (límite oeste)",
+  "lat": 41.18307,
+  "lng": 1.40495
+ },
+ {
+  "ine": "43122",
+  "name": "Renau",
+  "comarca": "Tarragonès est (límite oeste)",
+  "lat": 41.21785,
+  "lng": 1.31575
+ },
+ {
+  "ine": "43126",
+  "name": "La Riera de Gaià",
+  "comarca": "Tarragonès est (límite oeste)",
+  "lat": 41.16365,
+  "lng": 1.35577
+ },
+ {
+  "ine": "43131",
+  "name": "Roda de Berà",
+  "comarca": "Tarragonès est (límite oeste)",
+  "lat": 41.18622,
+  "lng": 1.46137
+ },
+ {
+  "ine": "43135",
+  "name": "Salomó",
+  "comarca": "Tarragonès est (límite oeste)",
+  "lat": 41.23419,
+  "lng": 1.37349
+ },
+ {
+  "ine": "43153",
+  "name": "Torredembarra",
+  "comarca": "Tarragonès est (límite oeste)",
+  "lat": 41.15104,
+  "lng": 1.40819
+ },
+ {
+  "ine": "43164",
+  "name": "Vespella de Gaià",
+  "comarca": "Tarragonès est (límite oeste)",
+  "lat": 41.20294,
+  "lng": 1.36134
+ },
+ {
+  "ine": "08053",
+  "name": "Castellbell i el Vilar",
+  "comarca": "Bages sud (límite norte)",
+  "lat": 41.63875,
+  "lng": 1.85336
+ },
+ {
+  "ine": "08061",
+  "name": "Castellgalí",
+  "comarca": "Bages sud (límite norte)",
+  "lat": 41.67741,
+  "lng": 1.82722
+ },
+ {
+  "ine": "08113",
+  "name": "Manresa",
+  "comarca": "Bages sud (límite norte)",
+  "lat": 41.72064,
+  "lng": 1.8256
+ },
+ {
+  "ine": "08242",
+  "name": "Marganell",
+  "comarca": "Bages sud (límite norte)",
+  "lat": 41.62888,
+  "lng": 1.80266
+ },
+ {
+  "ine": "08127",
+  "name": "Monistrol de Montserrat",
+  "comarca": "Bages sud (límite norte)",
+  "lat": 41.60953,
+  "lng": 1.84208
+ },
+ {
+  "ine": "08182",
+  "name": "El Pont de Vilomara i Rocafort",
+  "comarca": "Bages sud (límite norte)",
+  "lat": 41.70413,
+  "lng": 1.90699
+ },
+ {
+  "ine": "08262",
+  "name": "Sant Vicenç de Castellet",
+  "comarca": "Bages sud (límite norte)",
+  "lat": 41.6691,
+  "lng": 1.87699
+ }
+]
