@@ -22,7 +22,8 @@ const SRC_NAME = { solvia: 'Solvia', aliseda: 'Aliseda', servihabitat: 'Servihab
 const args = process.argv.slice(2);
 const DRY = args.includes('--dry');
 const NO_SITE = args.includes('--no-site');
-const only = (args[args.indexOf('--only') + 1] || '').split(',').filter(Boolean);
+const onlyIdx = args.indexOf('--only');
+const only = onlyIdx >= 0 ? (args[onlyIdx + 1] || '').split(',').filter(Boolean) : [];
 const MAX_ALERTS = parseInt(process.env.MAX_ALERTS || '25', 10);
 const today = new Date().toISOString().slice(0, 10);
 const log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a);
