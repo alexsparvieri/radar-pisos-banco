@@ -29,11 +29,18 @@ function fromList(x) {
   if (x.idEstado === 1) flags.push('Obra nueva');
   if (x.reformar || x.caracteristicas?.reformar) flags.push('A reformar');
   const town = pobl.replace(/^(.*)\s*\((el|la|l'|els|les)\)$/i, '$2 $1').trim();
+  // usoWeb 1 = ficha pública normal. Los activos de terceros (Cerberus/Divarian, Sareb…) llegan con usoWeb 2 y la web
+  // de Solvia no publica su ficha ("Producto no encontrado"): el enlace útil es el listado del municipio.
+  const provSlug = slugify(x.provincia?.nombre || x.provincia?.name || '');
+  const conFicha = x.usoWeb == null || Number(x.usoWeb) === 1;
+  if (!conFicha) flags.push('Sin ficha web en Solvia (solo por contacto, ref. ' + idVivienda + ')');
   return {
     src: 'Solvia',
     id: String(x.id),
     cat: String(x.categoriaTipoVivienda?.id) === '4' ? 'terreno' : 'vivienda',
-    url: `${BASE}/es/propiedades/comprar/${slugify(tipo)}-${slugify(town)}-${idVivienda}-${idPromocion}`,
+    url: conFicha
+      ? `${BASE}/es/propiedades/comprar/${slugify(tipo)}-${slugify(town)}-${idVivienda}-${idPromocion}`
+      : `${BASE}/es/comprar/${String(x.categoriaTipoVivienda?.id) === '4' ? 'suelos' : 'viviendas'}/${provSlug}/${slugify(pobl)}`,
     title: x.tituloFicha || `${tipo} en ${x.direccion || town}, ${town}`,
     type: tipo,
     town,

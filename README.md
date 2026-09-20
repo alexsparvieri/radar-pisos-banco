@@ -20,7 +20,18 @@ Proyecto personal, independiente de cualquier otro repositorio.
 | Unicaja Inmuebles (GIA) | Unicaja | listado HTML por provincia (`busquedaHeader.do`) + ficha para precio y fotos |
 | Bankinter | portal propio | tabla HTML (`ebk+inmuebles+listado?codProvincia=`) |
 
-Todas las fuentes cubren **viviendas y terrenos/solares** (categoría `cat: vivienda | terreno`).
+| fotocasa | portal generalista (Adevinta; misma base que habitaclia) | JSON embebido en la página de resultados, por comarca y con `maxPrice` en la URL; trae `isOccupied`, `isBareOwnership`, `isAuctioned`, `isRentedWithTenants` |
+| pisos.com | portal generalista (Vocento) | tarjetas HTML `.ad-preview` + JSON‑LD, por comarca y con `hasta-${MAX_PRICE}` en la URL |
+
+Todas las fuentes cubren **viviendas y terrenos** (categoría `cat: vivienda | terreno`).
+
+### Reglas del catálogo (`src/rules.js`)
+
+- **Precio máximo 150.000 €**; sin precio publicado no entra.
+- **Fuera:** ocupados, sin posesión, sin acceso/visita, subastas y cesiones de remate, situación especial, alquilados/en rentabilidad, nuda propiedad, usufructos, proindivisos, con incidencias, obra parada, sobre plano.
+- **Terrenos:** solo suelo urbano / solares edificables.
+- **Deduplicación:** mismo municipio + precio + superficie (±2 m²) + habitaciones → una sola ficha, con enlaces a los demás anuncios (`tambien`). Prioridad: bancos y servicers antes que portales.
+- Tras cambiar reglas: `node scripts/rebaseline.js` (limpia el estado guardado y evita una avalancha de falsas altas).
 
 Descartados tras comprobarlos (20‑sep‑2026): **Haya** (dominio dado de baja, stock en Solvia), **Casaktua** (redirige a Solvia),
 **Anticipa** (solo corporativa; su stock es Aliseda), **Sareb** (no vende a particulares; solo inventario por municipio y remite a Aliseda/Hipoges/Servihabitat),

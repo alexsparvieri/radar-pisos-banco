@@ -16,9 +16,18 @@ import { fetchAltamira } from './sources/altamira.js';
 import { fetchHipoges } from './sources/hipoges.js';
 import { fetchBankinter } from './sources/bankinter.js';
 import { fetchUnicaja } from './sources/unicaja.js';
+import { fetchHabitaclia } from './sources/habitaclia.js';
+import { fetchFotocasa } from './sources/fotocasa.js';
+import { fetchPisos } from './sources/pisos.js';
+import { motivoExclusion } from './rules.js';
+import { analizarPendientes } from './analisis/terrenos.js';
+import { geocodificarPendientes } from './geo/geocode.js';
 
-const SOURCES = { solvia: fetchSolvia, aliseda: fetchAliseda, servihabitat: fetchServihabitat, altamira: fetchAltamira, hipoges: fetchHipoges, bankinter: fetchBankinter, unicaja: fetchUnicaja };
-const SRC_NAME = { solvia: 'Solvia', aliseda: 'Aliseda', servihabitat: 'Servihabitat', altamira: 'Altamira', hipoges: 'Hipoges', bankinter: 'Bankinter', unicaja: 'Unicaja' };
+// Orden = prioridad al deduplicar (el mismo inmueble anunciado en varios sitios se queda con la primera fuente)
+// Habitaclia comparte anuncios con fotocasa: el conector existe (src/sources/habitaclia.js) pero no se ejecuta.
+const SOURCES = { solvia: fetchSolvia, aliseda: fetchAliseda, servihabitat: fetchServihabitat, altamira: fetchAltamira, hipoges: fetchHipoges, unicaja: fetchUnicaja, bankinter: fetchBankinter, fotocasa: fetchFotocasa, pisos: fetchPisos };
+const SRC_NAME = { solvia: 'Solvia', aliseda: 'Aliseda', servihabitat: 'Servihabitat', altamira: 'Altamira', hipoges: 'Hipoges', unicaja: 'Unicaja', bankinter: 'Bankinter', fotocasa: 'Fotocasa', pisos: 'pisos.com', habitaclia: 'Habitaclia' };
+void fetchHabitaclia;
 
 const args = process.argv.slice(2);
 const DRY = args.includes('--dry');
@@ -34,9 +43,15 @@ function finish(raw) {
   if (!m) return null;
   const l = { ...raw, id: String(raw.id), key: `${raw.src}:${raw.id}`, muni: m.name, comarca: m.comarca, flags: [...new Set((raw.flags || []).filter(Boolean))] };
   l.eur_m2 = l.price && l.m2 ? Math.round(l.price / l.m2) : null;
+  const motivo = motivoExclusion(l);
+  if (motivo) { excluidos[motivo] = (excluidos[motivo] || 0) + 1; return null; }
   delete l.town; delete l.desc; delete l.area;
   return l;
 }
+const excluidos = {};
+// Clave de deduplicación entre fuentes: mismo municipio + precio + superficie (±2 m²) + habitaciones
+const dupKey = (l) => `${l.muni}|${l.price}|${Math.round((l.m2 || 0) / 2)}|${l.rooms || ''}`;
+const dupSeen = new Map(); // key -> primera clave de listing vista en esta corrida
 
 const prev = loadListings();
 const next = { ...prev };
@@ -44,6 +59,9 @@ const events = [];
 const ok = [];
 const failed = [];
 const counts = {};
+let duplicados = 0;
+// las fichas que ya están en el estado también participan en la deduplicación (para no crear duplicados nuevos)
+for (const l of Object.values(prev)) if (!l.removed && l.m2) dupSeen.set(dupKey(l), l.key);
 
 for (const [name, fn] of Object.entries(SOURCES)) {
   if (only.length && !only.includes(name)) continue;
@@ -57,6 +75,15 @@ for (const [name, fn] of Object.entries(SOURCES)) {
     ok.push(SRC_NAME[name]);
     const seen = new Set();
     for (const l of inZone) {
+      // duplicado de otra fuente ya procesada: se anota en el original y no se crea ficha aparte
+      const dk = dupKey(l);
+      if (l.m2 && dupSeen.has(dk) && dupSeen.get(dk) !== l.key) {
+        const orig = next[dupSeen.get(dk)];
+        if (orig) { orig.tambien = [...new Set([...(orig.tambien || []), `${l.src}: ${l.url}`])]; }
+        duplicados++;
+        continue;
+      }
+      if (l.m2) dupSeen.set(dk, l.key);
       seen.add(l.key);
       const old = prev[l.key];
       if (!old) {
@@ -98,12 +125,17 @@ for (const [name, fn] of Object.entries(SOURCES)) {
 const news = events.filter((e) => e.type === 'new');
 const drops = events.filter((e) => e.type === 'price_drop');
 const removed = events.filter((e) => e.type === 'removed');
-log(`altas ${news.length} · bajadas de precio ${drops.length} · retiradas ${removed.length} · fallos ${failed.length}`);
+log(`altas ${news.length} · bajadas de precio ${drops.length} · retiradas ${removed.length} · fallos ${failed.length} · duplicados entre fuentes ${duplicados}`);
+log(`excluidos por reglas: ${JSON.stringify(excluidos)}`);
 
 if (!DRY) {
   saveListings(next);
+  // Anuncios sin coordenadas: geolocalizar por dirección (Nominatim, 1 petición/s, tope por corrida) para el filtro de la N-340
+  try { if (await geocodificarPendientes(next, { log })) saveListings(next); } catch (e) { log('geocode:', e.message); }
+  // Terrenos: análisis de fotos con Claude (pendiente, cimentación, excavación). Solo los que aún no lo tienen.
+  try { if (await analizarPendientes(next, { log })) saveListings(next); } catch (e) { log('analisis:', e.message); }
   appendHistory(events);
-  appendRun({ date: new Date().toISOString(), counts, failed, new: news.length, drops: drops.length, removed: removed.length });
+  appendRun({ date: new Date().toISOString(), counts, failed, new: news.length, drops: drops.length, removed: removed.length, duplicados, excluidos });
   if (!NO_SITE) buildSite(next, log);
 
   if (telegramConfigured()) {

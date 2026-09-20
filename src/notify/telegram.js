@@ -26,6 +26,7 @@ export function formatListing(l, kind) {
     `${esc(l.muni)} · ${esc(l.comarca)} · ${esc(l.src)}`,
     `<b>${eur(l.price)}</b>${l.eur_m2 ? ` · ${l.eur_m2.toLocaleString('es-ES')} €/m²` : ''}${l.m2 ? ` · ${l.m2} m²` : ''}${l.rooms ? ` · ${l.rooms} hab` : ''}`,
     risk.length ? `⚠️ ${esc(risk.join(', '))}` : '',
+    l.analisis?.pendiente ? `🏗️ Terreno: pendiente ${l.analisis.pendiente} · cimentación ${l.analisis.dificultad} · excavación ${l.analisis.excavacion}${l.analisis.notas ? ` · ${esc(l.analisis.notas)}` : ''}` : '',
     `<a href="${l.url}">Ver ficha</a>`,
   ].filter(Boolean).join('\n');
 }
