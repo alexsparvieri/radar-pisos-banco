@@ -23,7 +23,7 @@ export function buildSite(listings, log = console.log) {
 function template({ rows, comarcas, srcs, generated, events }) {
   return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Radar Penedès–Barcelona</title>
-<meta name="description" content="Viviendas de bancos y servicers a la venta entre El Vendrell y Barcelona, hasta 50 km hacia el interior">
+<meta name="description" content="Viviendas de bancos y servicers a la venta entre Tarragona y Barcelona, hasta 50 km hacia el interior">
 <link rel="manifest" href="data:application/manifest+json,${encodeURIComponent(JSON.stringify({ name: 'Radar Penedès–Barcelona', short_name: 'Radar', start_url: './', display: 'standalone', background_color: '#f6f4ef', theme_color: '#0f6e56' }))}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -65,7 +65,7 @@ h1{font:600 clamp(26px,4vw,38px)/1.05 Fraunces,Georgia,serif;margin:0;letter-spa
 @media (max-width:520px){.panel{position:static}.grid{grid-template-columns:1fr 1fr;gap:10px}.price b{font-size:18px}.body{padding:8px 9px 10px}}
 @media (max-width:380px){.grid{grid-template-columns:1fr}}
 </style></head><body><div class="wrap">
-<header><h1>Radar Penedès–Barcelona</h1><div class="sub">Viviendas de bancos y servicers en venta · El Vendrell → Barcelona, hasta ~50 km hacia el interior · actualizado <b>${generated}</b></div></header>
+<header><h1>Radar Penedès–Barcelona</h1><div class="sub">Viviendas de bancos y servicers en venta · Tarragona → Barcelona, hasta ~50 km hacia el interior · actualizado <b>${generated}</b></div></header>
 <div class="stats" id="stats"></div>
 <div class="panel"><div class="filters">
 <label>Buscar<input id="q" type="search" placeholder="municipio, calle, tipo…"></label>
@@ -80,7 +80,7 @@ h1{font:600 clamp(26px,4vw,38px)/1.05 Fraunces,Georgia,serif;margin:0;letter-spa
 <label><input type="checkbox" id="fn"> solo altas de los últimos 7 días</label>
 <label><input type="checkbox" id="fx"> ocultar «sin posesión / ocupado / llaves no disponibles / cesión de remate»</label>
 <label><input type="checkbox" id="fi"> solo con foto</label>
-<label><input type="checkbox" id="fl"> incluir zonas límite (Alt Camp, Tarragonès, Bages)</label>
+<label><input type="checkbox" id="fl"> incluir zonas límite (Conca de Barberà, Bages)</label>
 <span class="count" id="count"></span></div></div>
 ${events.length ? `<div class="events"><h2>Últimos movimientos</h2><ul>${events.map((e) => `<li><span class="k">${e.date}</span>${e.type === 'new' ? '🆕' : e.type === 'price_drop' ? '🔻' : '🔺'} <a href="${e.u}" target="_blank" rel="noopener">${esc(e.t)}</a> · ${esc(e.m)} · ${e.p ? e.p.toLocaleString('es-ES') + ' €' : 'a consultar'}${e.from ? ` (antes ${e.from.toLocaleString('es-ES')} €, ${e.pct > 0 ? '−' : '+'}${Math.abs(e.pct)}%)` : ''} · ${e.s}</li>`).join('')}</ul></div>` : ''}
 <div class="grid" id="grid"></div>

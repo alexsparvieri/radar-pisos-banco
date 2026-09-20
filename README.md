@@ -1,9 +1,9 @@
 # Radar de pisos de banco · El Vendrell → Barcelona
 
 Agente que vigila los portales inmobiliarios de bancos y *servicers* en España, se queda con las
-viviendas en venta de la franja **El Vendrell – Barcelona capital, hasta ~40‑50 km hacia el interior**
-(Baix Penedès, Alt Penedès, Garraf, Anoia, Baix Llobregat, Barcelona + L'Hospitalet, Vallès Occidental;
-y como «zona límite» Alt Camp, Tarragonès este y Bages sur), detecta **altas nuevas, bajadas de precio y retiradas**,
+viviendas en venta de la franja **Tarragona capital – Barcelona capital, hasta ~50 km hacia el interior**
+(Tarragonès, Baix Penedès, Alt Camp, Alt Penedès, Garraf, Anoia, Baix Llobregat, Barcelona + L'Hospitalet, Vallès Occidental;
+y como «zona límite» Conca de Barberà y Bages sur), detecta **altas nuevas, bajadas de precio y retiradas**,
 avisa por **Telegram** y publica una **web unificada** (fotos, filtros, orden por precio / €/m²) en GitHub Pages.
 
 Proyecto personal, independiente de cualquier otro repositorio.

@@ -7,7 +7,7 @@ import { http, sleep, toNum } from '../http.js';
 const BASE = 'https://www.servihabitat.com';
 // Comarcas de la zona tal como las nombra Servihabitat en la URL
 export const ZONAS = [
-  'tarragona-baixpenedes', 'tarragona-altcamp', 'tarragona-tarragones',
+  'tarragona-baixpenedes', 'tarragona-altcamp', 'tarragona-tarragones', 'tarragona-tarragonaciudad', 'tarragona-concadebarbera',
   'barcelona-altpenedes', 'barcelona-anoia', 'barcelona-baixllobregat', 'barcelona-barcelones',
   'barcelona-garraf', 'barcelona-vallesoccidental', 'barcelona-bages',
 ];
