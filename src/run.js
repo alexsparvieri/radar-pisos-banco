@@ -15,9 +15,10 @@ import { fetchServihabitat } from './sources/servihabitat.js';
 import { fetchAltamira } from './sources/altamira.js';
 import { fetchHipoges } from './sources/hipoges.js';
 import { fetchBankinter } from './sources/bankinter.js';
+import { fetchUnicaja } from './sources/unicaja.js';
 
-const SOURCES = { solvia: fetchSolvia, aliseda: fetchAliseda, servihabitat: fetchServihabitat, altamira: fetchAltamira, hipoges: fetchHipoges, bankinter: fetchBankinter };
-const SRC_NAME = { solvia: 'Solvia', aliseda: 'Aliseda', servihabitat: 'Servihabitat', altamira: 'Altamira', hipoges: 'Hipoges', bankinter: 'Bankinter' };
+const SOURCES = { solvia: fetchSolvia, aliseda: fetchAliseda, servihabitat: fetchServihabitat, altamira: fetchAltamira, hipoges: fetchHipoges, bankinter: fetchBankinter, unicaja: fetchUnicaja };
+const SRC_NAME = { solvia: 'Solvia', aliseda: 'Aliseda', servihabitat: 'Servihabitat', altamira: 'Altamira', hipoges: 'Hipoges', bankinter: 'Bankinter', unicaja: 'Unicaja' };
 
 const args = process.argv.slice(2);
 const DRY = args.includes('--dry');

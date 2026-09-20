@@ -197,7 +197,7 @@ try{const s=JSON.parse(localStorage.getItem('radar-f-v3')||'null');if(s&&s.s&&s.
 MULTI.forEach(msLabel);
 (function(){const by={};for(const r of D)by[r.s]=(by[r.s]||0)+1;const nn=D.filter(r=>recent(r.fs)).length;const nt=D.filter(r=>r.k==='terreno').length;
  $('stats').innerHTML=Object.entries(by).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<span>'+k+' <b>'+v+'</b></span>').join('')+'<span>· total <b>'+D.length+'</b></span>'+(nt?'<span>· terrenos <b>'+nt+'</b></span>':'')+'<span>· altas 7 días <b>'+nn+'</b></span>';
- $('note').innerHTML='<p>Fuentes: Solvia (Sabadell/Intrum; incluye ex-Haya, Casaktua e Ibercaja), Aliseda (Santander/Blackstone, comercializa Sareb), Servihabitat (CaixaBank; comercializa Kutxabank y Sareb), Altamira (doValue/Santander), Hipoges (comercializa Sareb), Bankinter. Las etiquetas «Sin posesión», «Situación especial», «REO» y «Cesión de remate» indican inmuebles ocupados o en proceso judicial: precio bajo, riesgo alto. Los precios no incluyen impuestos ni gastos. La tarjeta con borde verde es un alta de los últimos 7 días.</p>'})();
+ $('note').innerHTML='<p>Fuentes: Solvia (Sabadell/Intrum; incluye ex-Haya, Casaktua e Ibercaja), Aliseda (Santander/Blackstone, comercializa Sareb), Servihabitat (CaixaBank; comercializa Kutxabank y Sareb), Altamira (doValue/Santander), Hipoges (comercializa Sareb), Unicaja (GIA), Bankinter. Incluye viviendas y terrenos/solares. Las etiquetas «Proindiviso» (solo una parte del inmueble), «Sin posesión», «Situación especial», «REO» y «Cesión de remate» indican inmuebles ocupados o en proceso judicial: precio bajo, riesgo alto. Los precios no incluyen impuestos ni gastos. La tarjeta con borde verde es un alta de los últimos 7 días.</p>'})();
 apply();
 </script></body></html>`;
 }

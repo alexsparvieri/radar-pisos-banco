@@ -17,11 +17,18 @@ Proyecto personal, independiente de cualquier otro repositorio.
 | Servihabitat | CaixaBank / Lone Star (comercializa Kutxabank y Sareb) | HTML por comarca (`/es/venta/vivienda/{prov-comarca}?delta=20&start=N`) |
 | Altamira | doValue (Santander, fondos, cesiones de remate) | API JSON (`/nodejs/getResultados`) |
 | Hipoges | servicer (comercializa Sareb) | API JSON (`/api/assets/listing`) |
+| Unicaja Inmuebles (GIA) | Unicaja | listado HTML por provincia (`busquedaHeader.do`) + ficha para precio y fotos |
 | Bankinter | portal propio | tabla HTML (`ebk+inmuebles+listado?codProvincia=`) |
+
+Todas las fuentes cubren **viviendas y terrenos/solares** (categoría `cat: vivienda | terreno`).
 
 Descartados tras comprobarlos (20‑sep‑2026): **Haya** (dominio dado de baja, stock en Solvia), **Casaktua** (redirige a Solvia),
 **Anticipa** (solo corporativa; su stock es Aliseda), **Sareb** (no vende a particulares; solo inventario por municipio y remite a Aliseda/Hipoges/Servihabitat),
-**Unicaja Inmuebles**, **Abanca Inmobiliario**, **Ibercaja portal** (dominios inaccesibles o dados de baja), **Cajamar/Cimenta2** (sin stock en Cataluña).
+**Kutxabank** (su stock lo comercializa Servihabitat), **Ibercaja** (su stock lo comercializa Solvia), **BBVA** (vendió su inmobiliaria a Cerberus/Haya; hoy en Solvia),
+**Abanca Inmobiliario** e **Ibercaja portal** (dominios sin resolver DNS), **Cajamar/Cimenta2** (sin stock en Cataluña).
+
+Portales generalistas (idealista, fotocasa, habitaclia, pisos.com…): ver «Roadmap». idealista, yaencontre, indomio y milanuncios bloquean el acceso automático (403).
+fotocasa, habitaclia (datos embebidos en la página), pisos.com (JSON‑LD), tucasa y thinkspain sí son legibles y están pendientes de conector.
 
 ## Cómo funciona
 
