@@ -150,12 +150,12 @@ function apply(){const [q,fc,fm,fs,ft,fp,fq,so,fn,fx,fi,fl]=els.map(e=>e.type===
  $('more').hidden=L.length<=shown;}
 function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function fillMuni(){const fc=$('fc').value;const ms=[...new Set(D.filter(r=>!fc||r.c===fc).map(r=>r.m))].sort((a,b)=>a.localeCompare(b));const cur=$('fm').value;$('fm').innerHTML='<option value="">Todos</option>'+ms.map(m=>'<option'+(m===cur?' selected':'')+'>'+esc(m)+'</option>').join('')}
-els.forEach(e=>e.addEventListener('input',()=>{shown=60;if(e.id==='fc')fillMuni();apply();try{localStorage.setItem('radar-f',JSON.stringify(els.map(x=>x.type==='checkbox'?x.checked:x.value)))}catch(_){}}));
+els.forEach(e=>e.addEventListener('input',()=>{shown=60;if(e.id==='fc')fillMuni();apply();try{localStorage.setItem('radar-f-v2',JSON.stringify(els.map(x=>x.type==='checkbox'?x.checked:x.value)))}catch(_){}}));
 $('more').addEventListener('click',()=>{shown+=60;apply()});
 // carrusel: flechas en escritorio, deslizar con el dedo en el móvil; el contador sigue al scroll
 $('grid').addEventListener('click',e=>{const b=e.target.closest('.arr');if(!b)return;e.preventDefault();const st=b.parentElement.querySelector('.strip');st.scrollBy({left:(b.classList.contains('l')?-1:1)*st.clientWidth,behavior:'smooth'})});
 $('grid').addEventListener('scroll',e=>{const st=e.target;if(!st.classList||!st.classList.contains('strip'))return;const c=st.parentElement.querySelector('.cnt');if(c)c.textContent=(Math.round(st.scrollLeft/st.clientWidth)+1)+'/'+st.children.length},true);
-try{const s=JSON.parse(localStorage.getItem('radar-f')||'null');if(s&&s.length===els.length)els.forEach((e,i)=>{if(e.type==='checkbox')e.checked=!!s[i];else e.value=s[i]??''})}catch(_){}
+try{const s=JSON.parse(localStorage.getItem('radar-f-v2')||'null');if(s&&s.length===els.length)els.forEach((e,i)=>{if(e.type==='checkbox')e.checked=!!s[i];else e.value=s[i]??''})}catch(_){}
 (function(){const by={};for(const r of D)by[r.s]=(by[r.s]||0)+1;const nn=D.filter(r=>recent(r.fs)).length;
  $('stats').innerHTML=Object.entries(by).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<span>'+k+' <b>'+v+'</b></span>').join('')+'<span>· total <b>'+D.length+'</b></span><span>· altas 7 días <b>'+nn+'</b></span>';
  $('note').innerHTML='<p>Fuentes: Solvia (Sabadell/Intrum; incluye ex-Haya, Casaktua e Ibercaja), Aliseda (Santander/Blackstone, comercializa Sareb), Servihabitat (CaixaBank; comercializa Kutxabank y Sareb), Altamira (doValue/Santander), Hipoges (comercializa Sareb), Bankinter. Las etiquetas «Sin posesión», «Situación especial», «REO» y «Cesión de remate» indican inmuebles ocupados o en proceso judicial: precio bajo, riesgo alto. Los precios no incluyen impuestos ni gastos. La tarjeta con borde verde es un alta de los últimos 7 días.</p>'})();
