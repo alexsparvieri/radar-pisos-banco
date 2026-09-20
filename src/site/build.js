@@ -10,7 +10,7 @@ export function buildSite(listings, log = console.log) {
   const rows = all.map((o) => ({ s: o.src, u: o.url, t: o.title, ty: o.type, m: o.muni, c: o.comarca, p: o.price, po: o.priceOld || o.prevPrice || null, q: o.m2, r: o.rooms, b: o.baths, g: o.img, f: (o.flags || []).join(' | '), e: o.eur_m2, fs: o.baseline ? null : o.firstSeen, pd: o.dropPct || null }));
   const comarcas = [...new Set(rows.map((r) => r.c))].sort();
   const srcs = [...new Set(rows.map((r) => r.s))].sort();
-  const events = readHistory(300).filter((e) => e.type !== 'removed').reverse().slice(0, 40)
+  const events = readHistory(300).filter((e) => ['new', 'price_drop', 'price_up'].includes(e.type)).reverse().slice(0, 40)
     .map((e) => ({ ...e, l: listings[e.key] })).filter((e) => e.l && !e.l.removed)
     .map((e) => ({ type: e.type, date: e.date, t: e.l.title, m: e.l.muni, p: e.l.price, from: e.from, pct: e.pct, u: e.l.url, s: e.l.src }));
   const html = template({ rows, comarcas, srcs, generated, events });

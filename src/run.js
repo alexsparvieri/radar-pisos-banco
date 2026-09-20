@@ -61,7 +61,8 @@ for (const [name, fn] of Object.entries(SOURCES)) {
         next[l.key] = { ...l, firstSeen: today, lastSeen: today };
         events.push({ type: 'new', date: today, key: l.key, price: l.price });
       } else {
-        const merged = { ...old, ...l, firstSeen: old.firstSeen, lastSeen: today, baseline: old.baseline };
+        const merged = { ...old, ...l, firstSeen: old.firstSeen, lastSeen: today, baseline: old.baseline, misses: 0, removed: undefined };
+        if (old.removed) events.push({ type: 'back', date: today, key: l.key, price: l.price });
         if (old.price && l.price && old.price !== l.price) {
           const pct = Math.round((1 - l.price / old.price) * 100);
           events.push({ type: l.price < old.price ? 'price_drop' : 'price_up', date: today, key: l.key, from: old.price, to: l.price, pct });
@@ -71,11 +72,17 @@ for (const [name, fn] of Object.entries(SOURCES)) {
         next[l.key] = merged;
       }
     }
-    // retiradas: estaban antes en esta fuente y ya no aparecen
+    // retiradas: estaban antes en esta fuente y ya no aparecen en DOS ejecuciones seguidas
+    // (una sola ausencia puede ser cobertura parcial del portal, no una venta)
     for (const [k, old] of Object.entries(prev)) {
       if (old.src === SRC_NAME[name] && !seen.has(k) && !old.removed) {
-        next[k] = { ...old, removed: today };
-        events.push({ type: 'removed', date: today, key: k, price: old.price });
+        const misses = (old.misses || 0) + 1;
+        if (misses >= 2) {
+          next[k] = { ...old, misses, removed: today };
+          events.push({ type: 'removed', date: today, key: k, price: old.price });
+        } else {
+          next[k] = { ...old, misses };
+        }
       }
     }
   } catch (e) {

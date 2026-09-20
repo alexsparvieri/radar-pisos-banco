@@ -6,7 +6,7 @@
 //     -> hasta ~1000 inmuebles más cercanos al punto (todas las categorías), con geo e imágenes.
 // Estrategia: consulta por municipio; si un municipio tiene >20 viviendas, se completa con "cercanos"
 // desde su centroide y se filtra por poblacion.id.
-import { http, sleep } from '../http.js';
+import { http, mapLimit } from '../http.js';
 import { MUNICIPIOS } from '../zona.js';
 
 const BASE = 'https://www.solvia.es';
@@ -53,12 +53,14 @@ const slugify = (s) => (s || 'x').toLowerCase().normalize('NFD').replace(/[̀-ͯ
 
 export async function fetchSolvia(log = console.log) {
   const out = new Map();
-  let partial = [];
-  for (const m of MUNICIPIOS) {
+  const partial = [];
+  const t0 = Date.now();
+  await mapLimit(MUNICIPIOS, 4, async (m) => {
     try {
       const j = await http(`${BASE}/api/inmuebles/v2/buscarInmuebles`, {
         method: 'POST',
         json: true,
+        timeout: 20000,
         body: { idProvincia: m.ine.slice(0, 2), idPoblacion: parseInt(m.ine, 10), idCategoriaTipoVivienda: '1' },
       });
       for (const x of j.inmuebles || []) out.set(String(x.id), fromList(x));
@@ -66,14 +68,15 @@ export async function fetchSolvia(log = console.log) {
     } catch (e) {
       log(`[solvia] ${m.name}: ${e.message}`);
     }
-    await sleep(250);
-  }
-  // Completar municipios grandes con el endpoint geográfico
+  });
+  log(`[solvia] ${MUNICIPIOS.length} municipios consultados en ${Math.round((Date.now() - t0) / 1000)}s; ${partial.length} con más de 20`);
+  // Completar municipios grandes con el endpoint geográfico (devuelve los N inmuebles más cercanos al centroide)
   for (const m of partial) {
     if (!m.lat) { log(`[solvia] ${m.name}: sin centroide, quedan ${m.total - 20} sin cubrir`); continue; }
     try {
-      const n = Math.min(1000, Math.max(300, m.total * 6));
-      const j = await http(`${BASE}/api/inmuebles/v1/cercanos?filtro=(geo.latitud==${m.lat};geo.longitud==${m.lng})&tamanoPagina=${n}`, { json: true, timeout: 60000 });
+      // los N más cercanos al centroide incluyen inmuebles de municipios vecinos: hay que pedir bastantes más que el total
+      const n = Math.min(1000, Math.max(500, m.total * 12));
+      const j = await http(`${BASE}/api/inmuebles/v1/cercanos?filtro=(geo.latitud==${m.lat};geo.longitud==${m.lng})&tamanoPagina=${n}`, { json: true, timeout: 90000, retries: 1 });
       let added = 0;
       for (const x of j.resultado || []) {
         if (String(x.categoriaTipoVivienda?.id) !== '1') continue;
@@ -85,5 +88,18 @@ export async function fetchSolvia(log = console.log) {
       log(`[solvia] geo ${m.name}: ${e.message}`);
     }
   }
+  // El endpoint geográfico no trae fotos: completar con la ficha básica (una llamada por inmueble sin foto)
+  const sinFoto = [...out.values()].filter((l) => !l.img).slice(0, parseInt(process.env.SOLVIA_MAX_DETALLE || '900', 10));
+  let enriched = 0;
+  await mapLimit(sinFoto, 4, async (l) => {
+    try {
+      const d = await http(`${BASE}/api/inmuebles/v2/${l.id}/detalleBasico`, { json: true, timeout: 15000, retries: 1 });
+      const img = d.imagenBuscadorPc || d.imagenBuscador || d.listaImagenesInmueblePc?.[0]?.url || null;
+      if (img && !/no-foto/.test(img)) { l.img = img.replace(/\\/g, '/'); enriched++; }
+      if (d.enSituacionEspecial && !l.flags.includes('Situación especial')) l.flags.push('Situación especial');
+      if (d.precio && !l.price && d.mostrarPrecio !== false) l.price = d.precio;
+    } catch { /* sin foto */ }
+  });
+  if (sinFoto.length) log(`[solvia] fichas consultadas para foto: ${sinFoto.length}, con foto ${enriched}`);
   return [...out.values()];
 }

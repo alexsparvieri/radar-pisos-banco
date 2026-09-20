@@ -34,6 +34,16 @@ export async function http(url, { method = 'GET', body, headers = {}, timeout = 
 
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+/** Ejecuta fn sobre items con concurrencia limitada; devuelve los resultados en orden (undefined si falló). */
+export async function mapLimit(items, limit, fn) {
+  const out = new Array(items.length);
+  let i = 0;
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (i < items.length) { const k = i++; try { out[k] = await fn(items[k], k); } catch (e) { out[k] = undefined; } }
+  }));
+  return out;
+}
+
 export const toNum = (v) => {
   if (v == null) return null;
   if (typeof v === 'number') return Number.isFinite(v) ? v : null;
