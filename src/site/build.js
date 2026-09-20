@@ -6,7 +6,7 @@ import { ROOT, readHistory } from '../store.js';
 
 export function buildSite(listings, log = console.log) {
   const all = Object.values(listings).filter((l) => !l.removed);
-  const generated = new Date().toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
+  const generated = new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' (hora España)';
   const rows = all.map((o) => ({ s: o.src, u: o.url, t: o.title, ty: o.type, m: o.muni, c: o.comarca, p: o.price, po: o.priceOld || o.prevPrice || null, q: o.m2, r: o.rooms, b: o.baths, g: o.img, f: (o.flags || []).join(' | '), e: o.eur_m2, fs: o.baseline ? null : o.firstSeen, pd: o.dropPct || null }));
   const comarcas = [...new Set(rows.map((r) => r.c))].sort();
   const srcs = [...new Set(rows.map((r) => r.s))].sort();
