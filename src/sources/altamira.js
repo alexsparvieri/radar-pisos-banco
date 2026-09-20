@@ -7,10 +7,11 @@ const PROVINCIAS = [{ id: 43, nombre: 'Tarragona' }, { id: 8, nombre: 'Barcelona
 
 export async function fetchAltamira(log = console.log) {
   const out = [];
-  for (const p of PROVINCIAS) {
+  // idTipologia 1 = Pisos y Casas, 9 = Suelos (getTipologias)
+  for (const [idTipologia, cat] of [[1, 'vivienda'], [9, 'terreno']]) for (const p of PROVINCIAS) {
     for (let pagina = 1; pagina <= 20; pagina++) {
       const body = {
-        buscador: { idGestion: 1, idTipologia: 1, idProvincia: p.id, idPoblacion: null, provincia: p.nombre },
+        buscador: { idGestion: 1, idTipologia, idProvincia: p.id, idPoblacion: null, provincia: p.nombre },
         filtros: {
           obranueva: false, segundamano: false, order: 1, pagina, limite: '100', modoVisualizacion: 'L',
           cntxParamSubastasActivo: '1', cntxParamSubastasSarebActivo: '1', cntxParamSubastasCodSocsAAM: '1,2,7',
@@ -30,6 +31,7 @@ export async function fetchAltamira(log = console.log) {
             : `${BASE}/venta-viviendas/${slug(p.nombre)}/`,
           title: `${x.tipologia} en ${x.calle || x.poblacion}, ${x.poblacion}`,
           type: x.tipologia,
+          cat,
           town: x.poblacion,
           prov: p.nombre,
           price: x.preciovisible === 0 ? null : x.precio || null,
@@ -45,7 +47,7 @@ export async function fetchAltamira(log = console.log) {
           addr: x.calle || '',
         });
       }
-      log(`[altamira] ${p.nombre} pág ${pagina}: ${m.length} (total ${j.totalResultados})`);
+      log(`[altamira] ${cat} ${p.nombre} pág ${pagina}: ${m.length} (total ${j.totalResultados})`);
       if (m.length < 100) break;
       await sleep(400);
     }

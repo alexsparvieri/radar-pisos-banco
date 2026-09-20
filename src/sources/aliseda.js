@@ -8,12 +8,12 @@ const PROVINCIAS = ['tarragona', 'barcelona'];
 
 export async function fetchAliseda(log = console.log) {
   const out = [];
-  for (const prov of PROVINCIAS) {
+  for (const [seccion, cat] of [['comprar-viviendas', 'vivienda'], ['comprar-terrenos', 'terreno']]) for (const prov of PROVINCIAS) {
     let total = null;
     for (let page = 1; page <= 200; page++) {
-      const html = await http(`${BASE}/comprar-viviendas/cataluna/${prov}${page > 1 ? `?page=${page}` : ''}`);
+      const html = await http(`${BASE}/${seccion}/cataluna/${prov}${page > 1 ? `?page=${page}` : ''}`);
       const $ = cheerio.load(html);
-      if (page === 1) total = toNum(($('body').text().match(/(\d[\d.]*)\s+Viviendas/) || [])[1]);
+      if (page === 1) total = toNum(($('body').text().match(/(\d[\d.]*)\s+(Viviendas|Terrenos)/) || [])[1]);
       const cards = $('article.container-card');
       cards.each((_, el) => {
         const a = $(el).find('a.card').first();
@@ -43,6 +43,7 @@ export async function fetchAliseda(log = console.log) {
           url: BASE + href,
           title,
           type: title.split(' en ')[0],
+          cat,
           town,
           prov: prov === 'tarragona' ? 'Tarragona' : 'Barcelona',
           price: toNum($(el).find('.card__price--bold').first().text()),
@@ -58,7 +59,7 @@ export async function fetchAliseda(log = console.log) {
           desc: (a.attr('title') || '').slice(0, 400),
         });
       });
-      if (page % 10 === 1) log(`[aliseda] ${prov} pág ${page}: ${cards.length} (total ${total})`);
+      if (page % 10 === 1) log(`[aliseda] ${cat} ${prov} pág ${page}: ${cards.length} (total ${total})`);
       if (cards.length < 12) break;
       await sleep(300);
     }

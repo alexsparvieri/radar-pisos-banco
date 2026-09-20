@@ -32,6 +32,7 @@ function fromList(x) {
   return {
     src: 'Solvia',
     id: String(x.id),
+    cat: String(x.categoriaTipoVivienda?.id) === '4' ? 'terreno' : 'vivienda',
     url: `${BASE}/es/propiedades/comprar/${slugify(tipo)}-${slugify(town)}-${idVivienda}-${idPromocion}`,
     title: x.tituloFicha || `${tipo} en ${x.direccion || town}, ${town}`,
     type: tipo,
@@ -57,21 +58,23 @@ export async function fetchSolvia(log = console.log) {
   const out = new Map();
   const partial = [];
   const t0 = Date.now();
-  await mapLimit(MUNICIPIOS, 4, async (m) => {
+  // categoría 1 = Viviendas, 4 = Suelos
+  const CATS = ['1', '4'];
+  await mapLimit(MUNICIPIOS.flatMap((m) => CATS.map((cat) => ({ m, cat }))), 4, async ({ m, cat }) => {
     try {
       const j = await http(`${BASE}/api/inmuebles/v2/buscarInmuebles`, {
         method: 'POST',
         json: true,
         timeout: 20000,
-        body: { idProvincia: m.ine.slice(0, 2), idPoblacion: parseInt(m.ine, 10), idCategoriaTipoVivienda: '1' },
+        body: { idProvincia: m.ine.slice(0, 2), idPoblacion: parseInt(m.ine, 10), idCategoriaTipoVivienda: cat },
       });
       for (const x of j.inmuebles || []) out.set(String(x.id), fromList(x));
-      if (j.paginacion?.hayPaginaSiguiente) partial.push({ ...m, total: j.paginacion.numeroTotalResultados });
+      if (j.paginacion?.hayPaginaSiguiente) partial.push({ ...m, cat, total: j.paginacion.numeroTotalResultados });
     } catch (e) {
-      log(`[solvia] ${m.name}: ${e.message}`);
+      log(`[solvia] ${m.name} cat ${cat}: ${e.message}`);
     }
   });
-  log(`[solvia] ${MUNICIPIOS.length} municipios consultados en ${Math.round((Date.now() - t0) / 1000)}s; ${partial.length} con más de 20`);
+  log(`[solvia] ${MUNICIPIOS.length} municipios × ${CATS.length} categorías en ${Math.round((Date.now() - t0) / 1000)}s; ${partial.length} con más de 20`);
   // Completar municipios grandes con el endpoint geográfico (devuelve los N inmuebles más cercanos al centroide)
   for (const m of partial) {
     if (!m.lat) { log(`[solvia] ${m.name}: sin centroide, quedan ${m.total - 20} sin cubrir`); continue; }
@@ -81,11 +84,11 @@ export async function fetchSolvia(log = console.log) {
       const j = await http(`${BASE}/api/inmuebles/v1/cercanos?filtro=(geo.latitud==${m.lat};geo.longitud==${m.lng})&tamanoPagina=${n}`, { json: true, timeout: 90000, retries: 1 });
       let added = 0;
       for (const x of j.resultado || []) {
-        if (String(x.categoriaTipoVivienda?.id) !== '1') continue;
+        if (String(x.categoriaTipoVivienda?.id) !== m.cat) continue;
         if (String(x.poblacion?.id) !== String(parseInt(m.ine, 10))) continue;
         if (!out.has(String(x.id))) { const l = fromList(x); l.fromGeo = true; out.set(l.id, l); added++; }
       }
-      log(`[solvia] ${m.name}: ${m.total} declaradas, +${added} vía geo`);
+      log(`[solvia] ${m.name} cat ${m.cat}: ${m.total} declaradas, +${added} vía geo`);
     } catch (e) {
       log(`[solvia] geo ${m.name}: ${e.message}`);
     }

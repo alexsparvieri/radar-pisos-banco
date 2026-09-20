@@ -14,10 +14,10 @@ export const ZONAS = [
 
 export async function fetchServihabitat(log = console.log) {
   const out = [];
-  for (const zona of ZONAS) {
+  for (const [seccion, cat] of [['vivienda', 'vivienda'], ['terreno', 'terreno']]) for (const zona of ZONAS) {
     let total = null;
     for (let start = 1; start <= 30; start++) {
-      const html = await http(`${BASE}/es/venta/vivienda/${zona}?delta=20&start=${start}`);
+      const html = await http(`${BASE}/es/venta/${seccion}/${zona}?delta=20&start=${start}`);
       const $ = cheerio.load(html);
       if (start === 1) total = toNum($('.product-list').attr('data-total'));
       const items = $('.product-item');
@@ -27,7 +27,7 @@ export async function fetchServihabitat(log = console.log) {
         const text = $(el).text().replace(/\s+/g, ' ');
         const prices = [...text.matchAll(/([\d.]{4,})\s*€/g)].map((m) => toNum(m[1]));
         const title =
-          (text.match(/((Casa|Piso|Vivienda|Ático|Dúplex|Planta baja|Estudio|Loft|Chalet)[^€]*? en venta en [^€]*?, (Tarragona|Barcelona))/i) ||
+          (text.match(/((Casa|Piso|Vivienda|Ático|Dúplex|Planta baja|Estudio|Loft|Chalet|Terreno|Solar|Parcela|Suelo|Finca)[^€]*? en venta en [^€]*?, (Tarragona|Barcelona))/i) ||
             text.match(/(Promoción en [^€]*?, (Tarragona|Barcelona))/i) || [])[1] || text.slice(0, 120).trim();
         let town = (g('location-town') || '').replace(/^(.*),\s*(el|la|l'|els|les)$/i, '$2 $1');
         const flags = (text.match(/En rentabilidad|Llaves no disponibles|Sin posesión|Precio negociable|Incluye otros inmuebles|Promoción comercial|Novedad/gi) || [])
@@ -39,9 +39,10 @@ export async function fetchServihabitat(log = console.log) {
         out.push({
           src: 'Servihabitat',
           id: $(el).attr('data-id'),
-          url: a.attr('href') ? BASE + a.attr('href').split('#')[0] : `${BASE}/es/venta/vivienda/${zona}`,
+          url: a.attr('href') ? BASE + a.attr('href').split('#')[0] : `${BASE}/es/venta/${seccion}/${zona}`,
           title,
           type: title.split(' en venta')[0],
+          cat,
           town,
           prov: zona.startsWith('tarragona') ? 'Tarragona' : 'Barcelona',
           price: prices[0] ?? null,
@@ -57,7 +58,7 @@ export async function fetchServihabitat(log = console.log) {
           area: g('location-area'),
         });
       });
-      log(`[servihabitat] ${zona} pág ${start}: ${items.length} (total ${total})`);
+      log(`[servihabitat] ${cat} ${zona} pág ${start}: ${items.length} (total ${total})`);
       if (items.length < 20) break;
       await sleep(300);
     }
