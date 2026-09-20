@@ -27,7 +27,7 @@ Todas las fuentes cubren **viviendas y terrenos** (categoría `cat: vivienda | t
 
 ### Reglas del catálogo (`src/rules.js`)
 
-- **Precio máximo 150.000 €**; sin precio publicado no entra.
+- **Precio máximo** el configurado en `MAX_PRICE` (hoy 200.000 €); sin precio publicado no entra.
 - **Fuera:** ocupados, sin posesión, sin acceso/visita, subastas y cesiones de remate, situación especial, alquilados/en rentabilidad, nuda propiedad, usufructos, proindivisos, con incidencias, obra parada, sobre plano.
 - **Terrenos:** solo suelo urbano / solares edificables.
 - **Deduplicación:** mismo municipio + precio + superficie (±2 m²) + habitaciones → una sola ficha, con enlaces a los demás anuncios (`tambien`). Prioridad: bancos y servicers antes que portales.
@@ -38,8 +38,27 @@ Descartados tras comprobarlos (20‑sep‑2026): **Haya** (dominio dado de baja,
 **Kutxabank** (su stock lo comercializa Servihabitat), **Ibercaja** (su stock lo comercializa Solvia), **BBVA** (vendió su inmobiliaria a Cerberus/Haya; hoy en Solvia),
 **Abanca Inmobiliario** e **Ibercaja portal** (dominios sin resolver DNS), **Cajamar/Cimenta2** (sin stock en Cataluña).
 
-Portales generalistas (idealista, fotocasa, habitaclia, pisos.com…): ver «Roadmap». idealista, yaencontre, indomio y milanuncios bloquean el acceso automático (403).
-fotocasa, habitaclia (datos embebidos en la página), pisos.com (JSON‑LD), tucasa y thinkspain sí son legibles y están pendientes de conector.
+Portales generalistas: fotocasa y pisos.com conectados. Habitaclia comparte anuncios con fotocasa (conector escrito, desactivado).
+idealista, yaencontre, indomio y milanuncios bloquean el acceso automático (403); tucasa y thinkspain son legibles y quedan pendientes.
+
+## Análisis de terrenos con IA
+
+Para cada terreno del catálogo, `src/analisis/terrenos.js` envía hasta 4 fotos a Claude (modelo `claude-opus-5` por defecto) y guarda en el anuncio
+una estimación estructurada: **pendiente** (llano / suave / moderada / fuerte), **dificultad de cimentación** (baja / media / alta),
+**excavación** (hecha / parcial / no), estructuras visibles y una nota breve. Es una estimación visual orientativa, no un estudio geotécnico.
+
+- Requiere `ANTHROPIC_API_KEY` (secret en GitHub Actions o `.env` en local). Sin clave, el paso se omite y el resto funciona igual.
+- Solo se analizan terrenos nuevos (o cuyas fotos cambiaron); el resultado queda guardado. Tope por corrida: `ANALISIS_MAX` (120).
+- Coste orientativo con Opus 5: unos 0,03‑0,05 € por terreno (4 fotos). Para abaratar: `ANALISIS_MODEL=claude-haiku-4-5` (≈5× más barato) o `ANALISIS_EFFORT=low`.
+- Backlog completo de una vez: `node --env-file=.env scripts/analizar.js 5000`.
+
+## Lado de la N-340 y geolocalización
+
+`data/n340.json` guarda la traza de la N-340 / N-340a entre Tarragona y Barcelona (OpenStreetMap, Overpass). `src/geo/n340.js` clasifica cada anuncio
+con coordenadas como **«entre la N-340 y el mar»** o **«interior»** (el mar queda al sureste de la traza en toda la zona). Los anuncios que llegan sin
+coordenadas (Aliseda, Servihabitat, Unicaja, Bankinter) se geolocalizan por dirección con Nominatim (`src/geo/geocode.js`, 1 petición/s, tope
+`GEOCODE_MAX` por corrida, 150); si la calle no resuelve se usa el centroide del municipio y la web lo marca como aproximado.
+Backlog de una vez: `node scripts/geocodificar.js`.
 
 ## Cómo funciona
 

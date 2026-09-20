@@ -11,14 +11,14 @@ export const TERRENO_NO_URBANO = /r[uú]stic|rural|agr[ií]col|agrari|urbanizabl
 export const TERRENO_URBANO = /urbano|solar|parcela urbana|residencial|edificable|construir/i;
 
 export const TEXTO_REGLAS = {
-  precio: `Precio máximo ${MAX_PRICE.toLocaleString('es-ES')} €`,
+  precio: `Precio máximo ${MAX_PRICE.toLocaleString('es-ES')} € (y mínimo 1.000 €, para descartar anuncios con precio de relleno)`,
   fuera: 'Fuera del catálogo: ocupados, sin posesión, sin acceso o sin visita, subastas y cesiones de remate, situación especial, alquilados/en rentabilidad, nuda propiedad, usufructos, proindivisos, con incidencias, obra parada y sobre plano',
   terrenos: 'Terrenos: solo suelo urbano o solares edificables (no rústicos, agrícolas ni urbanizables sin desarrollar)',
 };
 
 /** Devuelve el motivo de exclusión o null si el inmueble entra en el catálogo. */
 export function motivoExclusion(l) {
-  if (l.price == null || !(l.price > 0)) return 'sin precio';
+  if (l.price == null || !(l.price >= 1000)) return 'sin precio'; // 0, 1 € o similares = precio de relleno del anunciante
   if (l.price > MAX_PRICE) return 'precio > tope';
   const texto = [l.title, l.type, ...(l.flags || []), l.desc || ''].join(' | ');
   if (EXCLUIR.test(texto)) return 'no disponible para comprar y disponer';
