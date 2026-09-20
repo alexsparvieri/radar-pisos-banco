@@ -7,7 +7,7 @@ import { ROOT, readHistory } from '../store.js';
 export function buildSite(listings, log = console.log) {
   const all = Object.values(listings).filter((l) => !l.removed);
   const generated = new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' (hora España)';
-  const rows = all.map((o) => ({ s: o.src, u: o.url, t: o.title, ty: o.type, m: o.muni, c: o.comarca, p: o.price, po: o.priceOld || o.prevPrice || null, q: o.m2, r: o.rooms, b: o.baths, g: o.img, f: (o.flags || []).join(' | '), e: o.eur_m2, fs: o.baseline ? null : o.firstSeen, pd: o.dropPct || null }));
+  const rows = all.map((o) => ({ s: o.src, u: o.url, t: o.title, ty: o.type, m: o.muni, c: o.comarca, p: o.price, po: o.priceOld || o.prevPrice || null, q: o.m2, r: o.rooms, b: o.baths, g: o.img, gs: packImgs(o), f: (o.flags || []).join(' | '), e: o.eur_m2, fs: o.baseline ? null : o.firstSeen, pd: o.dropPct || null }));
   const comarcas = [...new Set(rows.map((r) => r.c))].sort();
   const srcs = [...new Set(rows.map((r) => r.s))].sort();
   const events = readHistory(300).filter((e) => ['new', 'price_drop', 'price_up'].includes(e.type)).reverse().slice(0, 40)
@@ -18,6 +18,16 @@ export function buildSite(listings, log = console.log) {
   fs.writeFileSync(path.join(ROOT, 'docs', 'index.html'), html);
   fs.writeFileSync(path.join(ROOT, 'docs', 'listings.json'), JSON.stringify(all));
   log(`[site] docs/index.html ${(html.length / 1024).toFixed(0)} KB, ${rows.length} viviendas`);
+}
+
+// Galería compacta: [prefijo común, sufijo1, sufijo2, …] (solo si hay más de una foto)
+function packImgs(o) {
+  const imgs = [...new Set([o.img, ...(o.imgs || [])].filter(Boolean))].slice(0, 12);
+  if (imgs.length < 2) return null;
+  let p = imgs[0];
+  for (const u of imgs) { let i = 0; while (i < p.length && p[i] === u[i]) i++; p = p.slice(0, i); }
+  p = p.slice(0, p.lastIndexOf('/') + 1);
+  return [p, ...imgs.map((u) => u.slice(p.length))];
 }
 
 function template({ rows, comarcas, srcs, generated, events }) {
@@ -49,7 +59,13 @@ h1{font:600 clamp(26px,4vw,38px)/1.05 Fraunces,Georgia,serif;margin:0;letter-spa
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-top:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow)}
 .card.new{outline:2px solid var(--accent);outline-offset:-1px}
-.ph{aspect-ratio:4/3;max-width:100%;background:var(--chip);position:relative;display:block}.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph{aspect-ratio:4/3;max-width:100%;background:var(--chip);position:relative;display:block;overflow:hidden}.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.strip{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}.strip::-webkit-scrollbar{display:none}
+.strip a{flex:0 0 100%;height:100%;scroll-snap-align:start;display:block}
+.cnt{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.55);color:#fff;font:500 11px/1 "IBM Plex Mono",monospace;padding:4px 6px;border-radius:4px;pointer-events:none}
+.arr{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;border:0;background:rgba(255,255,255,.85);color:#1f1d1a;font:600 16px/1 sans-serif;cursor:pointer;display:none;align-items:center;justify-content:center}
+.arr.l{left:6px}.arr.r{right:6px}
+@media (hover:hover){.card:hover .arr{display:flex}}
 .ph .none{position:absolute;inset:0;display:grid;place-items:center;color:var(--mute);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
 .src{position:absolute;left:8px;top:8px;background:var(--card);color:var(--ink);font:600 11px/1 "IBM Plex Sans",sans-serif;padding:5px 7px;border-radius:4px;letter-spacing:.04em}
 .newb{position:absolute;right:8px;top:8px;background:var(--accent);color:#fff;font:600 11px/1 "IBM Plex Sans",sans-serif;padding:5px 7px;border-radius:4px}
@@ -75,12 +91,12 @@ h1{font:600 clamp(26px,4vw,38px)/1.05 Fraunces,Georgia,serif;margin:0;letter-spa
 <label>Tipo<select id="ft"><option value="">Todos</option><option value="piso">Piso / apartamento / ático / dúplex</option><option value="casa">Casa / chalet / adosado</option></select></label>
 <label>Precio máx. €<input id="fp" type="number" step="10000" placeholder="p.ej. 150000"></label>
 <label>m² mín.<input id="fq" type="number" step="10" placeholder="p.ej. 70"></label>
-<label>Orden<select id="so"><option value="new">Novedades primero</option><option value="p">Precio ↑</option><option value="-p">Precio ↓</option><option value="e">€/m² ↑</option><option value="-e">€/m² ↓</option><option value="-q">m² ↓</option><option value="m">Municipio</option></select></label>
+<label>Orden<select id="so"><option value="p" selected>Precio ↑</option><option value="-p">Precio ↓</option><option value="new">Novedades primero</option><option value="e">€/m² ↑</option><option value="-e">€/m² ↓</option><option value="-q">m² ↓</option><option value="m">Municipio</option></select></label>
 </div><div class="row2">
 <label><input type="checkbox" id="fn"> solo altas de los últimos 7 días</label>
-<label><input type="checkbox" id="fx"> ocultar «sin posesión / ocupado / llaves no disponibles / cesión de remate»</label>
+<label><input type="checkbox" id="fx" checked> ocultar «sin posesión / ocupado / llaves no disponibles / cesión de remate»</label>
 <label><input type="checkbox" id="fi"> solo con foto</label>
-<label><input type="checkbox" id="fl"> incluir zonas límite (Conca de Barberà, Bages)</label>
+<label><input type="checkbox" id="fl" checked> incluir zonas límite (Conca de Barberà, Bages)</label>
 <span class="count" id="count"></span></div></div>
 ${events.length ? `<div class="events"><h2>Últimos movimientos</h2><ul>${events.map((e) => `<li><span class="k">${e.date}</span>${e.type === 'new' ? '🆕' : e.type === 'price_drop' ? '🔻' : '🔺'} <a href="${e.u}" target="_blank" rel="noopener">${esc(e.t)}</a> · ${esc(e.m)} · ${e.p ? e.p.toLocaleString('es-ES') + ' €' : 'a consultar'}${e.from ? ` (antes ${e.from.toLocaleString('es-ES')} €, ${e.pct > 0 ? '−' : '+'}${Math.abs(e.pct)}%)` : ''} · ${e.s}</li>`).join('')}</ul></div>` : ''}
 <div class="grid" id="grid"></div>
@@ -120,7 +136,11 @@ function apply(){const [q,fc,fm,fs,ft,fp,fq,so,fn,fx,fi,fl]=els.map(e=>e.type===
  $('count').textContent=L.length+' de '+D.length;
  const g=$('grid');g.innerHTML='';
  for(const r of L.slice(0,shown)){const el=document.createElement('article');el.className='card'+(recent(r.fs)?' new':'');
-  el.innerHTML='<a class="ph" href="'+r.u+'" target="_blank" rel="noopener">'+(r.g?'<img loading="lazy" src="'+r.g+'" alt="">':'<span class="none">sin foto</span>')+'<span class="src">'+r.s+'</span>'+(recent(r.fs)?'<span class="newb">NUEVO '+r.fs.slice(5)+'</span>':'')+'</a>'
+  const imgs=r.gs?r.gs.slice(1).map(s=>r.gs[0]+s):(r.g?[r.g]:[]);
+  const slides=imgs.map((u,i)=>'<a href="'+r.u+'" target="_blank" rel="noopener"><img loading="'+(i?'lazy':'eager')+'" src="'+u+'" alt=""></a>').join('');
+  el.innerHTML='<div class="ph">'+(imgs.length?'<div class="strip">'+slides+'</div>':'<a class="none" href="'+r.u+'" target="_blank" rel="noopener">sin foto</a>')
+  +(imgs.length>1?'<button class="arr l" aria-label="anterior">‹</button><button class="arr r" aria-label="siguiente">›</button><span class="cnt">1/'+imgs.length+'</span>':'')
+  +'<span class="src">'+r.s+'</span>'+(recent(r.fs)?'<span class="newb">NUEVO '+r.fs.slice(5)+'</span>':'')+'</div>'
   +'<div class="body"><div class="price"><b>'+(r.p?fmt(r.p)+' €':'A consultar')+'</b>'+(r.po&&r.po>r.p?'<s>'+fmt(r.po)+' €</s>':'')+(r.e?'<span class="m2">'+fmt(r.e)+' €/m²</span>':'')+'</div>'
   +'<div class="title"><a href="'+r.u+'" target="_blank" rel="noopener">'+esc(r.t)+'</a></div>'
   +'<div class="loc">'+esc(r.m)+' · '+esc(r.c)+'</div>'
@@ -132,6 +152,9 @@ function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt
 function fillMuni(){const fc=$('fc').value;const ms=[...new Set(D.filter(r=>!fc||r.c===fc).map(r=>r.m))].sort((a,b)=>a.localeCompare(b));const cur=$('fm').value;$('fm').innerHTML='<option value="">Todos</option>'+ms.map(m=>'<option'+(m===cur?' selected':'')+'>'+esc(m)+'</option>').join('')}
 els.forEach(e=>e.addEventListener('input',()=>{shown=60;if(e.id==='fc')fillMuni();apply();try{localStorage.setItem('radar-f',JSON.stringify(els.map(x=>x.type==='checkbox'?x.checked:x.value)))}catch(_){}}));
 $('more').addEventListener('click',()=>{shown+=60;apply()});
+// carrusel: flechas en escritorio, deslizar con el dedo en el móvil; el contador sigue al scroll
+$('grid').addEventListener('click',e=>{const b=e.target.closest('.arr');if(!b)return;e.preventDefault();const st=b.parentElement.querySelector('.strip');st.scrollBy({left:(b.classList.contains('l')?-1:1)*st.clientWidth,behavior:'smooth'})});
+$('grid').addEventListener('scroll',e=>{const st=e.target;if(!st.classList||!st.classList.contains('strip'))return;const c=st.parentElement.querySelector('.cnt');if(c)c.textContent=(Math.round(st.scrollLeft/st.clientWidth)+1)+'/'+st.children.length},true);
 try{const s=JSON.parse(localStorage.getItem('radar-f')||'null');if(s&&s.length===els.length)els.forEach((e,i)=>{if(e.type==='checkbox')e.checked=!!s[i];else e.value=s[i]??''})}catch(_){}
 (function(){const by={};for(const r of D)by[r.s]=(by[r.s]||0)+1;const nn=D.filter(r=>recent(r.fs)).length;
  $('stats').innerHTML=Object.entries(by).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<span>'+k+' <b>'+v+'</b></span>').join('')+'<span>· total <b>'+D.length+'</b></span><span>· altas 7 días <b>'+nn+'</b></span>';

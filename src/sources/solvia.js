@@ -12,8 +12,9 @@ import { MUNICIPIOS } from '../zona.js';
 const BASE = 'https://www.solvia.es';
 
 function fromList(x) {
-  let img = (x.listaImagenesInmueble_vPC || [])[0] || (x.listaImagenesInmueble || [])[0] || (x.imagenBuscador && !/no-foto/.test(x.imagenBuscador) ? x.imagenBuscador : null);
-  if (img && !/^https?:/.test(img)) img = 'https://cdnsolvproep.solvia.es/' + img.replace(/^\/+/, ''); // el endpoint "cercanos" devuelve rutas relativas
+  const fixUrl = (u) => (u && !/^https?:/.test(u) ? 'https://cdnsolvproep.solvia.es/' + u.replace(/^\/+/, '') : u)?.replace(/\\/g, '/'); // "cercanos" devuelve rutas relativas
+  const imgs = (x.listaImagenesInmueble_vPC || x.listaImagenesInmueble || []).map((u) => fixUrl(typeof u === 'string' ? u : u.url)).filter(Boolean).slice(0, 12);
+  let img = imgs[0] || (x.imagenBuscador && !/no-foto/.test(x.imagenBuscador) ? fixUrl(x.imagenBuscador) : null);
   const pobl = x.poblacion?.nombre || x.poblacion?.name || '';
   const tipo = x.tipoVivienda?.nombre || x.tipoVivienda?.name || 'Vivienda';
   const idVivienda = x.idVivienda ?? String(x.id).split('-')[0];
@@ -41,7 +42,8 @@ function fromList(x) {
     m2: x.totalM2 || x.m2 || null,
     rooms: x.totalDormitorios || x.dormitorios || null,
     baths: x.totalBanyos || x.banyos || null,
-    img: img ? img.replace(/\\/g, '/') : null,
+    img: img || null,
+    imgs,
     lat: x.geo?.latitud ?? null,
     lng: x.geo?.longitud ?? null,
     flags,
@@ -90,13 +92,15 @@ export async function fetchSolvia(log = console.log) {
   }
   // El endpoint geográfico no trae fotos ni el indicador de "situación especial" (ocupado / judicial):
   // completar con la ficha básica (una llamada por inmueble) los que vienen de geo o no tienen foto.
-  const pendientes = [...out.values()].filter((l) => !l.img || l.fromGeo).slice(0, parseInt(process.env.SOLVIA_MAX_DETALLE || '1200', 10));
+  const pendientes = [...out.values()].filter((l) => !l.imgs?.length || l.fromGeo).slice(0, parseInt(process.env.SOLVIA_MAX_DETALLE || '1200', 10));
   let enriched = 0;
   await mapLimit(pendientes, 4, async (l) => {
     try {
       const d = await http(`${BASE}/api/inmuebles/v2/${l.id}/detalleBasico`, { json: true, timeout: 15000, retries: 1 });
-      const img = d.imagenBuscadorPc || d.imagenBuscador || d.listaImagenesInmueblePc?.[0]?.url || null;
-      if (img && !/no-foto/.test(img) && !l.img) { l.img = img.replace(/\\/g, '/'); enriched++; }
+      const imgs = (d.listaImagenesInmueblePc || []).map((i) => (i.url || '').replace(/\\/g, '/')).filter((u) => u && !/no-foto/.test(u)).slice(0, 12);
+      const img = imgs[0] || (d.imagenBuscadorPc || d.imagenBuscador || '').replace(/\\/g, '/') || null;
+      if (imgs.length) l.imgs = imgs;
+      if (img && !/no-foto/.test(img) && !l.img) { l.img = img; enriched++; }
       const situ = d.enSituacionEspecial === true || d.enSituacionEspecial === '1' || d.enSituacionEspecial === 1;
       if (situ && !l.flags.includes('Situación especial')) l.flags.push('Situación especial');
       if (d.precio && !l.price && d.mostrarPrecio !== false) l.price = d.precio;

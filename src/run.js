@@ -63,6 +63,8 @@ for (const [name, fn] of Object.entries(SOURCES)) {
         events.push({ type: 'new', date: today, key: l.key, price: l.price });
       } else {
         const merged = { ...old, ...l, firstSeen: old.firstSeen, lastSeen: today, baseline: old.baseline, misses: 0, removed: undefined };
+        if (!l.imgs?.length && old.imgs?.length) merged.imgs = old.imgs; // no perder la galería si esta vez no vino
+        if (!l.img && old.img) merged.img = old.img;
         if (old.removed) events.push({ type: 'back', date: today, key: l.key, price: l.price });
         if (old.price && l.price && old.price !== l.price) {
           const pct = Math.round((1 - l.price / old.price) * 100);

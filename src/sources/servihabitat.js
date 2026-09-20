@@ -2,7 +2,7 @@
 // Liferay con HTML servidor: /es/venta/vivienda/{provincia-comarca}?delta=20&start=N (start = nº de página).
 // Cada tarjeta .product-item lleva spans GTM ocultos con m2, habitaciones, baños y municipio.
 import * as cheerio from 'cheerio';
-import { http, sleep, toNum } from '../http.js';
+import { http, sleep, toNum, mapLimit } from '../http.js';
 
 const BASE = 'https://www.servihabitat.com';
 // Comarcas de la zona tal como las nombra Servihabitat en la URL
@@ -49,7 +49,8 @@ export async function fetchServihabitat(log = console.log) {
           m2: toNum(g('product-m2')),
           rooms: toNum(g('product-room-num')) || null,
           baths: toNum(g('product-bath-num')) || null,
-          img: (img.attr('data-src') || img.attr('src') || null)?.replace('/w450-h/', '/w800-h/') || null,
+          img: (img.attr('data-src') || img.attr('src') || null)?.replace('/w450-h/', '/w1024-h/') || null,
+          imgs: [],
           lat: null,
           lng: null,
           flags,
@@ -61,5 +62,16 @@ export async function fetchServihabitat(log = console.log) {
       await sleep(300);
     }
   }
+  // La tarjeta solo trae una foto; la ficha trae la galería completa (una petición por inmueble)
+  let galerias = 0;
+  await mapLimit(out, 4, async (l) => {
+    if (!/\/\d{6,}$/.test(l.url)) return;
+    try {
+      const html = await http(l.url, { timeout: 20000, retries: 1 });
+      const imgs = [...new Set([...html.matchAll(/https:\/\/imagenes\.servihabitat\.com\/sdi\/slir\/w1024-h\/[^"'\s)#]+/g)].map((m) => m[0]))].slice(0, 12);
+      if (imgs.length) { l.imgs = imgs; if (!l.img) l.img = imgs[0]; galerias++; }
+    } catch { /* se queda con la foto de la tarjeta */ }
+  });
+  log(`[servihabitat] galerías cargadas: ${galerias} de ${out.length}`);
   return out;
 }

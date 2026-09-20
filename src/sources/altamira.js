@@ -38,6 +38,7 @@ export async function fetchAltamira(log = console.log) {
           rooms: x.numhab || null,
           baths: x.numbanos || null,
           img: x.fotos?.[0]?.urlfoto || null,
+          imgs: (x.fotos || []).map((f) => f.urlfotogrande || f.urlfoto).filter(Boolean).slice(0, 12),
           lat: x.latitud ?? null,
           lng: x.longitud ?? null,
           flags,

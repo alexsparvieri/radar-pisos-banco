@@ -51,6 +51,7 @@ export async function fetchHipoges(log = console.log) {
           rooms: f.featuresBedroomNumber || null,
           baths: f.featuresBathroomNumber || null,
           img: x._assetInfo?.images?.[0]?.url || null,
+          imgs: (x._assetInfo?.images || []).map((i) => i.url).filter(Boolean).slice(0, 12),
           lat: x._location?.coordinates?.[1] ?? null,
           lng: x._location?.coordinates?.[0] ?? null,
           flags,

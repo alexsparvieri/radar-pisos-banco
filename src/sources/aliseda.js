@@ -25,7 +25,11 @@ export async function fetchAliseda(log = console.log) {
         });
         const parts = title.split(',').map((s) => s.trim());
         const town = parts.length >= 2 ? parts[parts.length - 2] : '';
-        const img = $(el).find('img.gallery__carousel-image, img[class*=carousel]').first().attr('src') || null;
+        // la tarjeta SSR trae las primeras ~5 fotos del carrusel; el CDN alisedaassets.com rechaza el hotlink,
+        // así que nos quedamos con la imagen original en Google Storage
+        const raw = $(el).find('img.gallery__carousel-image, img[class*=carousel]').map((_, im) => $(im).attr('src') || $(im).attr('ngsrc') || '').get();
+        const imgs = [...new Set(raw.map((u) => u.replace(/^https:\/\/alisedaassets\.com\/cdn-cgi\/image\/[^/]+\//, '')).filter((u) => /^https?:/.test(u)))].slice(0, 12);
+        const img = imgs[0] || null;
         const flags = [];
         const camp = $(el).find('.campaigns').text().replace(/\s+/g, ' ').trim();
         if (camp) flags.push(camp);
@@ -46,8 +50,8 @@ export async function fetchAliseda(log = console.log) {
           m2: toNum(chars['Sup. Total']),
           rooms: toNum(chars['Habit.']),
           baths: toNum(chars['Baños']),
-          // el CDN alisedaassets.com rechaza el hotlink; la imagen original en Google Storage sí carga
-          img: img ? img.replace(/^https:\/\/alisedaassets\.com\/cdn-cgi\/image\/[^/]+\//, '') : null,
+          img,
+          imgs,
           lat: null,
           lng: null,
           flags,
