@@ -78,8 +78,8 @@ h1{font:600 clamp(26px,4vw,38px)/1.05 Fraunces,Georgia,serif;margin:0;letter-spa
 .tag.w{color:var(--warn);background:transparent;border:1px solid var(--warn)}.tag.b{color:var(--bad);background:transparent;border:1px solid var(--bad)}.tag.g{color:var(--accent);background:transparent;border:1px solid var(--accent)}
 .more{display:block;margin:22px auto 0;padding:10px 22px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:500 14px "IBM Plex Sans",sans-serif;cursor:pointer}
 .note{color:var(--mute);font-size:12px;margin-top:26px;line-height:1.5}
-@media (max-width:520px){.panel{position:static}.grid{grid-template-columns:1fr 1fr;gap:10px}.price b{font-size:18px}.body{padding:8px 9px 10px}}
-@media (max-width:380px){.grid{grid-template-columns:1fr}}
+/* móvil: una sola columna, la foto ocupa todo el ancho de la tarjeta (el doble que a dos columnas) */
+@media (max-width:640px){.panel{position:static}.grid{grid-template-columns:1fr;gap:14px}}
 </style></head><body><div class="wrap">
 <header><h1>Radar Penedès–Barcelona</h1><div class="sub">Viviendas de bancos y servicers en venta · Tarragona → Barcelona, hasta ~50 km hacia el interior · actualizado <b>${generated}</b></div></header>
 <div class="stats" id="stats"></div>
