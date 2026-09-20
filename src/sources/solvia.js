@@ -81,25 +81,28 @@ export async function fetchSolvia(log = console.log) {
       for (const x of j.resultado || []) {
         if (String(x.categoriaTipoVivienda?.id) !== '1') continue;
         if (String(x.poblacion?.id) !== String(parseInt(m.ine, 10))) continue;
-        if (!out.has(String(x.id))) { out.set(String(x.id), fromList(x)); added++; }
+        if (!out.has(String(x.id))) { const l = fromList(x); l.fromGeo = true; out.set(l.id, l); added++; }
       }
       log(`[solvia] ${m.name}: ${m.total} declaradas, +${added} vía geo`);
     } catch (e) {
       log(`[solvia] geo ${m.name}: ${e.message}`);
     }
   }
-  // El endpoint geográfico no trae fotos: completar con la ficha básica (una llamada por inmueble sin foto)
-  const sinFoto = [...out.values()].filter((l) => !l.img).slice(0, parseInt(process.env.SOLVIA_MAX_DETALLE || '900', 10));
+  // El endpoint geográfico no trae fotos ni el indicador de "situación especial" (ocupado / judicial):
+  // completar con la ficha básica (una llamada por inmueble) los que vienen de geo o no tienen foto.
+  const pendientes = [...out.values()].filter((l) => !l.img || l.fromGeo).slice(0, parseInt(process.env.SOLVIA_MAX_DETALLE || '1200', 10));
   let enriched = 0;
-  await mapLimit(sinFoto, 4, async (l) => {
+  await mapLimit(pendientes, 4, async (l) => {
     try {
       const d = await http(`${BASE}/api/inmuebles/v2/${l.id}/detalleBasico`, { json: true, timeout: 15000, retries: 1 });
       const img = d.imagenBuscadorPc || d.imagenBuscador || d.listaImagenesInmueblePc?.[0]?.url || null;
-      if (img && !/no-foto/.test(img)) { l.img = img.replace(/\\/g, '/'); enriched++; }
-      if (d.enSituacionEspecial && !l.flags.includes('Situación especial')) l.flags.push('Situación especial');
+      if (img && !/no-foto/.test(img) && !l.img) { l.img = img.replace(/\\/g, '/'); enriched++; }
+      const situ = d.enSituacionEspecial === true || d.enSituacionEspecial === '1' || d.enSituacionEspecial === 1;
+      if (situ && !l.flags.includes('Situación especial')) l.flags.push('Situación especial');
       if (d.precio && !l.price && d.mostrarPrecio !== false) l.price = d.precio;
-    } catch { /* sin foto */ }
+    } catch { /* se queda como está */ }
   });
-  if (sinFoto.length) log(`[solvia] fichas consultadas para foto: ${sinFoto.length}, con foto ${enriched}`);
+  for (const l of out.values()) delete l.fromGeo;
+  if (pendientes.length) log(`[solvia] fichas consultadas: ${pendientes.length}, fotos añadidas ${enriched}`);
   return [...out.values()];
 }
