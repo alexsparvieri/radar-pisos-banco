@@ -61,7 +61,7 @@ const failed = [];
 const counts = {};
 let duplicados = 0;
 // las fichas que ya están en el estado también participan en la deduplicación (para no crear duplicados nuevos)
-for (const l of Object.values(prev)) if (!l.removed && l.m2) dupSeen.set(dupKey(l), l.key);
+for (const l of Object.values(prev)) if (!l.removed && l.m2 && !dupSeen.has(dupKey(l))) dupSeen.set(dupKey(l), l.key);
 
 for (const [name, fn] of Object.entries(SOURCES)) {
   if (only.length && !only.includes(name)) continue;
@@ -75,17 +75,19 @@ for (const [name, fn] of Object.entries(SOURCES)) {
     ok.push(SRC_NAME[name]);
     const seen = new Set();
     for (const l of inZone) {
-      // duplicado de otra fuente ya procesada: se anota en el original y no se crea ficha aparte
+      const old = prev[l.key];
+      // Deduplicación SOLO para fichas nuevas: si ya existe otra ficha (de otra fuente) con el mismo municipio,
+      // precio, superficie y habitaciones, se anota ahí el enlace y no se crea ficha aparte. Las fichas que ya
+      // están en el estado nunca se tratan como duplicadas (si no, se darían de baja por error).
       const dk = dupKey(l);
-      if (l.m2 && dupSeen.has(dk) && dupSeen.get(dk) !== l.key) {
+      if (!old && l.m2 && dupSeen.has(dk) && dupSeen.get(dk) !== l.key && next[dupSeen.get(dk)] && !next[dupSeen.get(dk)].removed) {
         const orig = next[dupSeen.get(dk)];
-        if (orig) { orig.tambien = [...new Set([...(orig.tambien || []), `${l.src}: ${l.url}`])]; }
+        orig.tambien = [...new Set([...(orig.tambien || []), `${l.src}: ${l.url}`])];
         duplicados++;
         continue;
       }
-      if (l.m2) dupSeen.set(dk, l.key);
+      if (l.m2 && !dupSeen.has(dk)) dupSeen.set(dk, l.key);
       seen.add(l.key);
-      const old = prev[l.key];
       if (!old) {
         next[l.key] = { ...l, firstSeen: today, lastSeen: today };
         events.push({ type: 'new', date: today, key: l.key, price: l.price });
