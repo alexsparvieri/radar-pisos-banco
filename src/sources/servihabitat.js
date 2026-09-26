@@ -17,7 +17,8 @@ export async function fetchServihabitat(log = console.log) {
   for (const [seccion, cat] of [['vivienda', 'vivienda'], ['terreno', 'terreno']]) for (const zona of ZONAS) {
     let total = null;
     for (let start = 1; start <= 30; start++) {
-      const html = await http(`${BASE}/es/venta/${seccion}/${zona}?delta=20&start=${start}`);
+      let html;
+      try { html = await http(`${BASE}/es/venta/${seccion}/${zona}?delta=20&start=${start}`, { timeout: 45000 }); } catch (e) { log(`[servihabitat] ${seccion} ${zona} pág ${start}: ${e.message}`); break; }
       const $ = cheerio.load(html);
       if (start === 1) total = toNum($('.product-list').attr('data-total'));
       const items = $('.product-item');

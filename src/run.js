@@ -53,6 +53,17 @@ const excluidos = {};
 const dupKey = (l) => `${l.muni}|${l.price}|${Math.round((l.m2 || 0) / 2)}|${l.rooms || ''}`;
 const dupSeen = new Map(); // key -> primera clave de listing vista en esta corrida
 
+import fs from 'node:fs';
+import path from 'node:path';
+import { ROOT } from './store.js';
+// último total descargado por fuente en una corrida anterior sin fallo (para detectar descargas parciales)
+function ultimoTotal(name) {
+  try {
+    const lines = fs.readFileSync(path.join(ROOT, 'data', 'runs.jsonl'), 'utf8').trim().split('\n').slice(-12).reverse();
+    for (const l of lines) { const r = JSON.parse(l); const c = r.counts?.[name]; if (c && c.total > 0) return c.total; }
+  } catch { /* sin historial */ }
+  return null;
+}
 const prev = loadListings();
 const next = { ...prev };
 const events = [];
@@ -72,6 +83,10 @@ for (const [name, fn] of Object.entries(SOURCES)) {
     counts[name] = { total: rows.length, zona: inZone.length, s: Math.round((Date.now() - t0) / 1000) };
     log(`[${name}] ${rows.length} bajadas, ${inZone.length} en zona`);
     if (rows.length === 0) throw new Error('0 resultados: se asume fallo de la fuente');
+    // Descarga parcial (el portal devolvió mucho menos que la vez anterior): no contar ausencias como retiradas
+    const previoTotal = ultimoTotal(name);
+    const parcial = previoTotal && rows.length < previoTotal * 0.7;
+    if (parcial) log(`[${name}] descarga parcial (${rows.length} vs ${previoTotal} la última vez): no se cuentan retiradas`);
     ok.push(SRC_NAME[name]);
     const seen = new Set();
     for (const l of inZone) {
@@ -108,6 +123,7 @@ for (const [name, fn] of Object.entries(SOURCES)) {
     // retiradas: estaban antes en esta fuente y ya no aparecen en DOS ejecuciones seguidas
     // (una sola ausencia puede ser cobertura parcial del portal, no una venta)
     for (const [k, old] of Object.entries(prev)) {
+      if (parcial) break;
       if (old.src === SRC_NAME[name] && !seen.has(k) && !old.removed) {
         const misses = (old.misses || 0) + 1;
         if (misses >= 2) {

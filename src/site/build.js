@@ -113,6 +113,10 @@ h1{font:600 clamp(26px,4vw,38px)/1.05 Fraunces,Georgia,serif;margin:0;letter-spa
 .ms .clr{align-self:flex-start;border:0;background:transparent;color:var(--accent);font:500 13px "IBM Plex Sans",sans-serif;padding:6px;cursor:pointer}
 .row2{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font-size:13px}.row2 label{display:flex;gap:6px;align-items:center;color:var(--ink2)}
 .count{margin-left:auto;font-family:"IBM Plex Mono",monospace;color:var(--ink2)}
+.clrall{border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:999px;padding:4px 12px;font:500 13px "IBM Plex Sans",sans-serif;cursor:pointer}
+.active{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.active:empty{display:none}
+.active span{font-size:12px;padding:3px 9px;border-radius:999px;background:var(--accent);color:#fff}
+.events summary{cursor:pointer;list-style:none}.events summary::-webkit-details-marker{display:none}.events ul{margin-top:8px}
 .events{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:13px}
 .events h2{font:600 15px Fraunces,Georgia,serif;margin:0 0 6px}.events li{list-style:none;padding:3px 0;border-top:1px dashed var(--line)}.events ul{margin:0;padding:0}
 .events .k{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--mute);margin-right:6px}
@@ -166,8 +170,9 @@ ${ms('fa', 'Terreno (fotos IA)', [['llano', 'Pendiente: llano'], ['suave', 'Pend
 <label><input type="checkbox" id="fn"> solo altas de los últimos 7 días</label>
 <label><input type="checkbox" id="fi"> solo con foto</label>
 <label><input type="checkbox" id="fl" checked> incluir zonas límite (Conca de Barberà, Bages)</label>
-<span class="count" id="count"></span></div></div>
-${events.length ? `<div class="events"><h2>Últimos movimientos</h2><ul>${events.map((e) => `<li><span class="k">${e.date}</span>${e.type === 'new' ? '🆕' : e.type === 'price_drop' ? '🔻' : '🔺'} <a href="${e.u}" target="_blank" rel="noopener">${esc(e.t)}</a> · ${esc(e.m)} · ${e.p ? e.p.toLocaleString('es-ES') + ' €' : 'a consultar'}${e.from ? ` (antes ${e.from.toLocaleString('es-ES')} €, ${e.pct > 0 ? '−' : '+'}${Math.abs(e.pct)}%)` : ''} · ${e.s}</li>`).join('')}</ul></div>` : ''}
+<button type="button" class="clrall" id="clrall" hidden>Quitar filtros</button>
+<span class="count" id="count"></span></div><div class="active" id="active"></div></div>
+${events.length ? `<details class="events"><summary><b>Últimos movimientos</b> (${events.length}) <span class="more-hint">ver</span></summary><ul>${events.map((e) => `<li><span class="k">${e.date}</span>${e.type === 'new' ? '🆕' : e.type === 'price_drop' ? '🔻' : '🔺'} <a href="${e.u}" target="_blank" rel="noopener">${esc(e.t)}</a> · ${esc(e.m)} · ${e.p ? e.p.toLocaleString('es-ES') + ' €' : 'a consultar'}${e.from ? ` (antes ${e.from.toLocaleString('es-ES')} €, ${e.pct > 0 ? '−' : '+'}${Math.abs(e.pct)}%)` : ''} · ${e.s}</li>`).join('')}</ul></details>` : ''}
 <div class="grid" id="grid"><div class="loading">Cargando ${total.toLocaleString('es-ES')} inmuebles…</div></div>
 <button class="more" id="more" hidden>Mostrar 60 más</button>
 <div class="note" id="note"></div>
@@ -209,6 +214,9 @@ function apply(){const [q,fpmin,fp,fq,so,fz,fn,fi,fl]=SIMPLE.map(e=>e.type==='ch
  if(so==='new'){L.sort((a,b)=>(b.fs||'').localeCompare(a.fs||'')||((a.p||9e9)-(b.p||9e9)))}
  else{const k=so.replace('-','');const dir=so.startsWith('-')?-1:1;L.sort((a,b)=>{if(k==='m')return (a.m||'').localeCompare(b.m||'');const x=a[k],y=b[k];if(x==null&&y==null)return 0;if(x==null)return 1;if(y==null)return -1;return (x-y)*dir})}
  $('count').textContent=L.length+' de '+D.length;
+ // resumen de filtros activos + botón para quitarlos (evita el "¿por qué veo tan pocos?")
+ const act=[];if(qq)act.push('texto: '+qq);if(S.length)act.push('entidad: '+S.join(', '));if(C.length)act.push('comarca: '+C.join(', '));if(M.length)act.push('municipio: '+M.join(', '));if(T.length)act.push('tipo: '+T.join(', '));if(A.length)act.push('terreno IA: '+A.join(', '));if(fz)act.push(fz==='mar'?'entre la N-340 y el mar':'interior de la N-340');if(fpmin)act.push('desde '+fmt(+fpmin)+' €');if(fp)act.push('hasta '+fmt(+fp)+' €');if(fq)act.push('≥ '+fq+' m²');if(fn)act.push('altas 7 días');if(fi)act.push('solo con foto');if(!fl)act.push('sin zonas límite');
+ $('active').innerHTML=act.map(a=>'<span>'+esc(a)+'</span>').join('');$('clrall').hidden=!act.length;
  const g=$('grid');g.innerHTML='';
  for(const r of L.slice(0,shown)){const el=document.createElement('article');el.className='card'+(recent(r.fs)?' new':'');
   const imgs=r.gs?r.gs.slice(1).map(s=>r.gs[0]+s):(r.g?[r.g]:[]);
@@ -233,6 +241,7 @@ MULTI.forEach(id=>{const el=$(id);el.addEventListener('change',()=>{shown=60;msL
 // cerrar desplegables al tocar fuera
 document.addEventListener('click',e=>{document.querySelectorAll('.ms details[open]').forEach(d=>{if(!d.contains(e.target))d.open=false})});
 $('more').addEventListener('click',()=>{shown+=60;apply()});
+$('clrall').addEventListener('click',()=>{SIMPLE.forEach(e=>{if(e.type==='checkbox')e.checked=(e.id==='fl');else if(e.id==='so')e.value='p';else e.value=''});MULTI.forEach(id=>{document.querySelectorAll('#'+id+' input').forEach(i=>i.checked=false);msLabel(id)});fillMuni();shown=60;apply();save()});
 // carrusel: flechas en escritorio, deslizar con el dedo en el móvil; el contador sigue al scroll
 $('grid').addEventListener('click',e=>{const b=e.target.closest('.arr');if(!b)return;e.preventDefault();const st=b.parentElement.querySelector('.strip');st.scrollBy({left:(b.classList.contains('l')?-1:1)*st.clientWidth,behavior:'smooth'})});
 $('grid').addEventListener('scroll',e=>{const st=e.target;if(!st.classList||!st.classList.contains('strip'))return;const c=st.parentElement.querySelector('.cnt');if(c)c.textContent=(Math.round(st.scrollLeft/st.clientWidth)+1)+'/'+st.children.length},true);
