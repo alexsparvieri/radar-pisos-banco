@@ -62693,3 +62693,14 @@
 {"type":"price_drop","date":"2026-10-04","key":"pisos.com:67562020842_106500","from":182750,"to":169000,"pct":8}
 {"type":"back","date":"2026-10-04","key":"pisos.com:62570112595_100700","price":140000}
 {"type":"new","date":"2026-10-04","key":"pisos.com:66671849527_106400","price":125000}
+{"type":"new","date":"2026-10-04","key":"Fotocasa:191020194","price":185000}
+{"type":"back","date":"2026-10-04","key":"Fotocasa:185332216","price":165000}
+{"type":"back","date":"2026-10-04","key":"Fotocasa:162268133","price":110000}
+{"type":"back","date":"2026-10-04","key":"Fotocasa:129239733","price":100000}
+{"type":"back","date":"2026-10-04","key":"Fotocasa:190741801","price":20000}
+{"type":"removed","date":"2026-10-04","key":"Fotocasa:190621822","price":115000}
+{"type":"removed","date":"2026-10-04","key":"Fotocasa:190331895","price":165000}
+{"type":"removed","date":"2026-10-04","key":"Fotocasa:189479386","price":170000}
+{"type":"removed","date":"2026-10-04","key":"Fotocasa:190920663","price":79000}
+{"type":"removed","date":"2026-10-04","key":"pisos.com:67548863050_106500","price":195500}
+{"type":"removed","date":"2026-10-04","key":"pisos.com:68394024295_106600","price":198000}
