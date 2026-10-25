@@ -104453,3 +104453,16 @@
 {"type":"back","date":"2026-10-25","key":"pisos.com:61702525287_108700","price":50000}
 {"type":"price_drop","date":"2026-10-25","key":"pisos.com:61702525287_108700","from":51000,"to":50000,"pct":2}
 {"type":"price_drop","date":"2026-10-25","key":"pisos.com:62560840226_106500","from":77000,"to":70000,"pct":9}
+{"type":"removed","date":"2026-10-25","key":"Aliseda:ant00030664576","price":87000}
+{"type":"removed","date":"2026-10-25","key":"Aliseda:52951816","price":179090}
+{"type":"removed","date":"2026-10-25","key":"Aliseda:ant00030680686","price":70000}
+{"type":"removed","date":"2026-10-25","key":"Aliseda:can0000199586","price":90000}
+{"type":"removed","date":"2026-10-25","key":"Aliseda:ant00030650588","price":48180}
+{"type":"removed","date":"2026-10-25","key":"Aliseda:srb0000085790","price":145000}
+{"type":"price_drop","date":"2026-10-25","key":"Fotocasa:191198487","from":179500,"to":178500,"pct":1}
+{"type":"price_drop","date":"2026-10-25","key":"Fotocasa:188932790","from":116000,"to":112000,"pct":3}
+{"type":"new","date":"2026-10-25","key":"Fotocasa:191203138","price":94500}
+{"type":"back","date":"2026-10-25","key":"Fotocasa:190026227","price":63000}
+{"type":"price_drop","date":"2026-10-25","key":"pisos.com:65873579118_106100","from":171000,"to":145000,"pct":15}
+{"type":"new","date":"2026-10-25","key":"pisos.com:68370148820_106100","price":130000}
+{"type":"new","date":"2026-10-25","key":"pisos.com:68421111505_105900","price":188600}
