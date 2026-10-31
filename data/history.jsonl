@@ -111240,3 +111240,15 @@
 {"type":"removed","date":"2026-10-30","key":"pisos.com:65870933285_106100","price":35000}
 {"type":"removed","date":"2026-10-30","key":"pisos.com:65908678823_106100","price":50000}
 {"type":"removed","date":"2026-10-30","key":"pisos.com:65858430677_106100","price":70000}
+{"type":"removed","date":"2026-10-31","key":"Solvia:262816-216757-O","price":125000}
+{"type":"removed","date":"2026-10-31","key":"Solvia:164190-130585-O","price":55000}
+{"type":"removed","date":"2026-10-31","key":"Aliseda:vtr0200330926","price":190000}
+{"type":"price_drop","date":"2026-10-31","key":"Fotocasa:184555794","from":169000,"to":168000,"pct":1}
+{"type":"new","date":"2026-10-31","key":"Fotocasa:191244964","price":195000}
+{"type":"new","date":"2026-10-31","key":"Fotocasa:191255064","price":189700}
+{"type":"new","date":"2026-10-31","key":"Fotocasa:190302750","price":158000}
+{"type":"new","date":"2026-10-31","key":"pisos.com:68334134180_106600","price":175000}
+{"type":"removed","date":"2026-10-31","key":"pisos.com:64253929194_101800","price":120000}
+{"type":"removed","date":"2026-10-31","key":"pisos.com:67589679737_106100","price":27420}
+{"type":"removed","date":"2026-10-31","key":"pisos.com:60009730712_100500","price":136000}
+{"type":"removed","date":"2026-10-31","key":"pisos.com:580418481_501106","price":197200}
