@@ -126611,3 +126611,8 @@
 {"type":"removed","date":"2026-11-21","key":"pisos.com:68379917496_529844","price":50000}
 {"type":"removed","date":"2026-11-21","key":"pisos.com:68334269283_105000","price":160000}
 {"type":"removed","date":"2026-11-21","key":"pisos.com:68401775871_106500","price":89000}
+{"type":"price_up","date":"2026-11-22","key":"pisos.com:45030849944_107000","from":3265,"to":3750,"pct":-15}
+{"type":"price_up","date":"2026-11-22","key":"pisos.com:25073233421_107000","from":28135,"to":32355,"pct":-15}
+{"type":"price_up","date":"2026-11-22","key":"pisos.com:99251003705_107000","from":20640,"to":22700,"pct":-10}
+{"type":"price_up","date":"2026-11-22","key":"pisos.com:45005404996_107000","from":11610,"to":13350,"pct":-15}
+{"type":"price_up","date":"2026-11-22","key":"pisos.com:45068274007_107000","from":2400,"to":2760,"pct":-15}
